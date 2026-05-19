@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/ic_home_24"
+        android:icon="@drawable/ic_nav_home_24"
         android:title="@string/catalog" />
     <item
         android:id="@+id/nav_haggle"
-        android:icon="@android:drawable/ic_menu_share"
+        android:icon="@drawable/ic_nav_haggle_24"
         android:title="@string/haggle" />
     <item
         android:id="@+id/nav_chat"
-        android:icon="@android:drawable/stat_notify_chat"
+        android:icon="@drawable/ic_nav_chat_24"
         android:title="@string/chat" />
     <item
         android:id="@+id/nav_cart"
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@drawable/ic_nav_cart_24"
         android:title="@string/cart" />
 </menu>

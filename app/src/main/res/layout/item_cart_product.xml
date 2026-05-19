@@ -43,7 +43,7 @@
                 android:id="@+id/btnDeleteCartItem"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/rounded_icon_button_bg"
                 android:contentDescription="@string/delete_item"
                 android:padding="9dp"
                 android:src="@drawable/ic_delete_24"
@@ -61,12 +61,13 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/ivCartProductImage"
                 android:layout_width="86dp"
                 android:layout_height="86dp"
                 android:background="@drawable/cart_product_image_bg"
+                android:clipToOutline="true"
                 android:contentDescription="@string/product_name_placeholder"
-                android:padding="18dp"
-                android:scaleType="centerInside"
+                android:scaleType="centerCrop"
                 android:src="@android:drawable/ic_menu_gallery"
                 app:tint="@color/text_muted" />
 

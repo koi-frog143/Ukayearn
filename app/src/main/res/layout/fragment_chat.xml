@@ -229,8 +229,9 @@
                 android:id="@+id/btnBackToInbox"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/rounded_icon_button_bg"
                 android:contentDescription="@string/back_to_messages"
+                android:padding="10dp"
                 android:src="@drawable/ic_arrow_back_24"
                 app:tint="@color/black" />
 
@@ -283,8 +284,9 @@
                 android:id="@+id/btnChatInfo"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
+                android:background="@drawable/rounded_icon_button_bg"
                 android:contentDescription="@string/chat_info"
+                android:padding="10dp"
                 android:src="@drawable/ic_info_24"
                 app:tint="@color/black" />
         </LinearLayout>
@@ -561,7 +563,7 @@
         android:id="@+id/chatComposerBar"
         android:layout_width="match_parent"
         android:layout_height="84dp"
-        android:background="@color/surface_light"
+        android:background="@drawable/rounded_action_bar_bg"
         android:elevation="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
@@ -574,8 +576,9 @@
             android:id="@+id/btnAttachImage"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
+            android:background="@drawable/rounded_icon_button_bg"
             android:contentDescription="@string/attach_image"
+            android:padding="10dp"
             android:src="@drawable/ic_camera_24"
             app:tint="@color/text_muted" />
 

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="92dp">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="224dp">
+
+            <ImageView
+                android:id="@+id/ivShopCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/rounded_image_bg"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@android:drawable/ic_menu_gallery" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#66000000" />
+
+            <ImageButton
+                android:id="@+id/btnBackShop"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="top|start"
+                android:layout_margin="16dp"
+                android:background="@drawable/rounded_icon_button_bg"
+                android:contentDescription="@string/back"
+                android:padding="10dp"
+                android:src="@drawable/ic_arrow_back_24"
+                app:tint="@color/black" />
+
+            <TextView
+                android:id="@+id/btnShopReport"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="top|end"
+                android:layout_margin="16dp"
+                android:background="@drawable/rounded_icon_button_bg"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:text="!"
+                android:textColor="@color/error"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="18dp">
+
+                <ImageView
+                    android:id="@+id/ivShopAvatar"
+                    android:layout_width="76dp"
+                    android:layout_height="76dp"
+                    android:background="@drawable/cart_product_image_bg"
+                    android:clipToOutline="true"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/ic_menu_gallery" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="14dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvShopName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_bold"
+                        android:maxLines="1"
+                        android:textColor="@color/white"
+                        android:textSize="24sp"
+                        tools:text="ThriftKada" />
+
+                    <TextView
+                        android:id="@+id/tvShopLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/poppins_regular"
+                        android:maxLines="1"
+                        android:textColor="@color/surface_light"
+                        android:textSize="12sp"
+                        tools:text="Cebu City, PH" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="26dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/premium_badge_bg"
+                        android:fontFamily="@font/poppins_semibold"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:text="@string/store_verified"
+                        android:textColor="@color/accent_gold"
+                        android:textSize="11sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/tvShopTagline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cart_notice_bg"
+                android:fontFamily="@font/poppins_regular"
+                android:lineSpacingExtra="3dp"
+                android:padding="14dp"
+                android:textColor="@color/text_muted"
+                android:textSize="13sp"
+                tools:text="Curated jackets, tees, and streetwear pieces refreshed weekly." />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="84dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/profile_stats_bg"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <LinearLayout
+                    style="@style/ShopStatColumn">
+
+                    <TextView
+                        android:id="@+id/tvShopRating"
+                        style="@style/ShopStatValue"
+                        tools:text="4.8 rating" />
+
+                    <TextView
+                        style="@style/ShopStatLabel"
+                        android:text="@string/shop_rating" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/ShopStatColumn">
+
+                    <TextView
+                        android:id="@+id/tvShopListings"
+                        style="@style/ShopStatValue"
+                        tools:text="3 listings" />
+
+                    <TextView
+                        style="@style/ShopStatLabel"
+                        android:text="@string/shop_items" />
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/ShopStatColumn">
+
+                    <TextView
+                        android:id="@+id/tvShopResponse"
+                        style="@style/ShopStatValue"
+                        tools:text="98%" />
+
+                    <TextView
+                        style="@style/ShopStatLabel"
+                        android:text="@string/shop_response" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnShopChat"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/primary_maroon"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/chat"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btnShopFollow"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/accent_gold"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:text="@string/follow_shop"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvShopFollowers"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/haggle_summary_bg"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    tools:text="1,240 followers" />
+
+                <TextView
+                    android:id="@+id/tvShopJoined"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/haggle_summary_bg"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:gravity="center"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    tools:text="Joined 2024" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/shop_service_title"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/ShopPolicyChip"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/shop_cod" />
+
+                <TextView
+                    style="@style/ShopPolicyChip"
+                    android:layout_marginEnd="8dp"
+                    android:text="@string/shop_haggle" />
+
+                <TextView
+                    style="@style/ShopPolicyChip"
+                    android:text="@string/shop_fast_reply" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/shop_products"
+                android:textColor="@color/black"
+                android:textSize="16sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvShopProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_product_card" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

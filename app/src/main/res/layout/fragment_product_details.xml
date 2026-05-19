@@ -22,6 +22,9 @@
                 android:id="@+id/ivDetailImage"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
+                android:layout_margin="16dp"
+                android:background="@drawable/rounded_image_bg"
+                android:clipToOutline="true"
                 android:scaleType="centerCrop"
                 android:src="@android:drawable/ic_menu_gallery" />
 
@@ -81,7 +84,7 @@
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="@color/surface_light"
+        android:background="@drawable/rounded_action_bar_bg"
         android:elevation="10dp"
         android:gravity="center"
         android:orientation="horizontal"

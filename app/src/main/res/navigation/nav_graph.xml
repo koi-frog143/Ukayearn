@@ -61,6 +61,16 @@
     </fragment>
 
     <fragment
+        android:id="@+id/nav_shop"
+        android:name="com.citu.ukayearn.ui.screens.home.ShopFragment"
+        android:label="@string/shop"
+        tools:layout="@layout/fragment_shop">
+        <argument
+            android:name="storeId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
         android:id="@+id/nav_cart"
         android:name="com.citu.ukayearn.ui.screens.cart.CartFragment"
         android:label="@string/cart"

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="78dp"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="10dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/categoryIconContainer"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/home_category_icon_bg">
+
+        <ImageView
+            android:id="@+id/ivCategoryIcon"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_category_24"
+            app:tint="@color/secondary_blue" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvCategoryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:ellipsize="end"
+        android:fontFamily="@font/poppins_semibold"
+        android:gravity="center"
+        android:maxLines="1"
+        android:textColor="@color/black"
+        android:textSize="10sp"
+        tools:text="Outerwear" />
+</LinearLayout>
