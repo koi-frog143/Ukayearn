@@ -1,3 +1,74 @@
 <resources>
     <string name="app_name">Ukayearn</string>
+    <string name="brand_name">Ukayearn.</string>
+
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="login">Login</string>
+    <string name="invalid_credentials">Invalid credentials</string>
+
+    <string name="location_label">Location</string>
+    <string name="location_value">Cebu City, PH</string>
+    <string name="search_hint">Search vintage finds...</string>
+    <string name="new_collection">New Collection</string>
+    <string name="first_transaction_discount">Discount 50% for\nthe first transaction</string>
+    <string name="shop_now">Shop Now</string>
+    <string name="category">Category</string>
+    <string name="see_all">See All</string>
+    <string name="category_item_placeholder">Item</string>
+    <string name="flash_sale">Flash Sale</string>
+
+    <string name="catalog">Catalog</string>
+    <string name="haggle">Haggle</string>
+    <string name="chat">Chat</string>
+    <string name="cart">Cart</string>
+
+    <string name="product_name_placeholder">Product Name</string>
+    <string name="seller_placeholder">Seller: ThriftKada</string>
+    <string name="seller_format">Seller: %1$s</string>
+    <string name="price_placeholder">PHP 0</string>
+    <string name="price_format">PHP %1$,.0f</string>
+    <string name="product_details">Product Details</string>
+    <string name="product_description_placeholder">This is where the description goes...</string>
+    <string name="hangyo">Hangyo</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="haggle_opening_message">Hangyo system opening... Propose your price!</string>
+    <string name="item_locked_message">Item locked for 15 mins. Check your cart!</string>
+
+    <string name="my_cart">My Cart</string>
+    <plurals name="locked_finds_count">
+        <item quantity="one">%d locked find</item>
+        <item quantity="other">%d locked finds</item>
+    </plurals>
+    <string name="cart_lock_time">15:00</string>
+    <string name="cart_notice">Items are temporarily reserved while you review your order.</string>
+    <string name="voucher_or_seller_code">Voucher or seller code</string>
+    <string name="apply">Apply</string>
+    <string name="order_summary">Order Summary</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="buyer_protection">Buyer protection</string>
+    <string name="delivery">Delivery</string>
+    <string name="total">Total</string>
+    <string name="checkout">Checkout</string>
+    <string name="checkout_coming_soon">Checkout flow coming soon.</string>
+    <string name="quantity_decrease">-</string>
+    <string name="quantity_increase">+</string>
+    <string name="quantity_default">1</string>
+
+    <string name="haggle_title">Hangyo Counter</string>
+    <string name="haggle_subtitle">Negotiate gently with the seller before checkout.</string>
+    <string name="active_item">Active Item</string>
+    <string name="asking_price">Asking Price</string>
+    <string name="seller_note">Seller note</string>
+    <string name="seller_haggle_message">Hi! This piece is still available. Send a fair offer and I\'ll review it.</string>
+    <string name="suggested_offers">Suggested Offers</string>
+    <string name="offer_five_off">5% off</string>
+    <string name="offer_ten_off">10% off</string>
+    <string name="offer_fifteen_off">15% off</string>
+    <string name="your_offer">Your offer</string>
+    <string name="offer_hint">Enter offer amount</string>
+    <string name="send_offer">Send Offer</string>
+    <string name="haggle_tip">Tip: respectful offers are more likely to be accepted in-store and online.</string>
+    <string name="offer_sent_format">Offer sent: %1$s</string>
+    <string name="seller_reviewing_offer">Seller is reviewing your hangyo. You\'ll get a reply soon.</string>
 </resources>

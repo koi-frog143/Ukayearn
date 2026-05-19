@@ -1,4 +1,8 @@
 package com.citu.ukayearn.navigation
 
-class Routes {
+object Routes {
+    const val HOME = "home"
+    const val HAGGLE = "haggle"
+    const val CHAT = "chat"
+    const val CART = "cart"
 }
