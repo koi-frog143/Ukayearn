@@ -12,9 +12,10 @@ import com.citu.ukayearn.data.models.Store
 import com.citu.ukayearn.ui.util.AssetImageLoader
 
 class StoreShowcaseAdapter(
-    private val stores: List<Store>,
+    stores: List<Store>,
     private val onStoreClicked: (Store) -> Unit
 ) : RecyclerView.Adapter<StoreShowcaseAdapter.StoreViewHolder>() {
+    private val storeList = stores.toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StoreViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -23,7 +24,7 @@ class StoreShowcaseAdapter(
     }
 
     override fun onBindViewHolder(holder: StoreViewHolder, position: Int) {
-        val store = stores[position]
+        val store = storeList[position]
         val context = holder.itemView.context
         val listingCount = Database.products.count { it.seller == store.name }
 
@@ -39,7 +40,13 @@ class StoreShowcaseAdapter(
         }
     }
 
-    override fun getItemCount(): Int = stores.size
+    override fun getItemCount(): Int = storeList.size
+
+    fun submitList(stores: List<Store>) {
+        storeList.clear()
+        storeList.addAll(stores)
+        notifyDataSetChanged()
+    }
 
     class StoreViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ivImage: ImageView = itemView.findViewById(R.id.ivStoreImage)

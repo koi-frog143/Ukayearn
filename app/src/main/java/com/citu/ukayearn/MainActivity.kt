@@ -1,6 +1,7 @@
 package com.citu.ukayearn
 
 import android.os.Bundle
+import com.citu.ukayearn.data.Database
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -25,18 +26,34 @@ class MainActivity : AppCompatActivity() {
 
         bottomNav.setupWithNavController(navController)
         compactBottomNavSpacing(bottomNav)
+        refreshChatBadge()
 
-        // Magic trick: Hide the nav bar if we are on splash, login, or signup!
+        // Magic trick: Hide the nav bar if we are on splash, login, or checkout!
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.nav_splash ||
                 destination.id == R.id.nav_login ||
-                destination.id == R.id.nav_signup ||
                 destination.id == R.id.nav_checkout
             ) {
                 bottomNavContainer.visibility = View.GONE
             } else {
                 bottomNavContainer.visibility = View.VISIBLE
             }
+            refreshChatBadge()
+        }
+    }
+
+    fun refreshChatBadge() {
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+        val unreadCount = Database.unreadMessageCountForCurrentUser()
+        if (unreadCount > 0) {
+            bottomNav.getOrCreateBadge(R.id.nav_chat).apply {
+                number = unreadCount
+                isVisible = true
+                backgroundColor = getColor(R.color.error)
+                badgeTextColor = getColor(R.color.white)
+            }
+        } else {
+            bottomNav.removeBadge(R.id.nav_chat)
         }
     }
 

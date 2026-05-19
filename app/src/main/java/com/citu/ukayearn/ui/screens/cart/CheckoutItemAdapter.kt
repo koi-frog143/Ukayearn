@@ -11,7 +11,9 @@ import com.citu.ukayearn.data.Database
 import com.citu.ukayearn.ui.util.AssetImageLoader
 
 class CheckoutItemAdapter(
-    private val items: List<CheckoutItem>
+    private val items: List<CheckoutItem>,
+    private val showReceivedAction: Boolean = false,
+    private val onReceivedClicked: ((CheckoutItem) -> Unit)? = null
 ) : RecyclerView.Adapter<CheckoutItemAdapter.CheckoutItemViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckoutItemViewHolder {
@@ -31,6 +33,10 @@ class CheckoutItemAdapter(
             R.string.price_format,
             Database.effectiveCartUnitPrice(item.product) * item.quantity
         )
+        holder.btnReceived.visibility = if (showReceivedAction) View.VISIBLE else View.GONE
+        holder.btnReceived.setOnClickListener {
+            onReceivedClicked?.invoke(item)
+        }
     }
 
     override fun getItemCount(): Int = items.size
@@ -41,5 +47,6 @@ class CheckoutItemAdapter(
         val tvSeller: TextView = itemView.findViewById(R.id.tvCheckoutSeller)
         val tvQuantity: TextView = itemView.findViewById(R.id.tvCheckoutQuantity)
         val tvPrice: TextView = itemView.findViewById(R.id.tvCheckoutPrice)
+        val btnReceived: TextView = itemView.findViewById(R.id.btnReceived)
     }
 }

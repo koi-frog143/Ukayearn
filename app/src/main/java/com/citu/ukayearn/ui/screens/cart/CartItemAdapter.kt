@@ -1,5 +1,7 @@
 package com.citu.ukayearn.ui.screens.cart
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,6 +9,7 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.Database
@@ -82,9 +85,28 @@ class CartItemAdapter(
         holder.btnDelete.setOnClickListener {
             val adapterPosition = holder.adapterPosition
             if (adapterPosition != RecyclerView.NO_POSITION) {
-                items.removeAt(adapterPosition)
-                notifyItemRemoved(adapterPosition)
-                onCartChanged()
+                val dialogView = LayoutInflater.from(context)
+                    .inflate(R.layout.dialog_confirm_delete, null)
+                val dialog = AlertDialog.Builder(context)
+                    .setView(dialogView)
+                    .create()
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+                dialogView.findViewById<TextView>(R.id.tvDeleteMessage).text =
+                    context.getString(R.string.delete_item_message)
+
+                dialogView.findViewById<View>(R.id.btnDeleteCancel).setOnClickListener {
+                    dialog.dismiss()
+                }
+
+                dialogView.findViewById<View>(R.id.btnDeleteConfirm).setOnClickListener {
+                    items.removeAt(adapterPosition)
+                    notifyItemRemoved(adapterPosition)
+                    onCartChanged()
+                    dialog.dismiss()
+                }
+
+                dialog.show()
             }
         }
     }

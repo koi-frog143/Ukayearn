@@ -2,6 +2,12 @@
 <resources>
 
     <style name="Theme.Ukayearn" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/earth_forest</item>
+        <item name="colorPrimaryVariant">@color/earth_leaf</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorSecondary">@color/earth_leaf</item>
+        <item name="colorSecondaryVariant">@color/earth_forest</item>
+        <item name="colorOnSecondary">@color/white</item>
         <item name="android:windowBackground">@color/background_light</item>
         <item name="android:colorAccent">@color/secondary_blue</item>
         <item name="android:navigationBarColor">@color/background_light</item>

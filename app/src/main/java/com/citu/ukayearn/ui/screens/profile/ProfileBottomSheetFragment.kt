@@ -1,6 +1,7 @@
 package com.citu.ukayearn.ui.screens.profile
 
 import android.app.Dialog
+import android.net.Uri
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -12,6 +13,10 @@ import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatButton
+import android.widget.EditText
 import androidx.navigation.NavOptions
 import androidx.navigation.Navigation
 import com.citu.ukayearn.R
@@ -21,6 +26,18 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
+    private var profileSheetView: View? = null
+    private var editProfileImageView: ImageView? = null
+    private var editProfileImageUri: String? = null
+    private val profileImagePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        uri ?: return@registerForActivityResult
+        editProfileImageUri = uri.toString()
+        editProfileImageView?.apply {
+            imageTintList = null
+            setPadding(0, 0, 0, 0)
+            setImageURI(uri)
+        }
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return (super.onCreateDialog(savedInstanceState) as BottomSheetDialog).apply {
@@ -43,11 +60,17 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        profileSheetView = view
 
         bindProfileHeader(view)
-        bindComingSoon(view, R.id.rowEditProfile, getString(R.string.edit_profile), R.drawable.ic_edit_profile_24)
-        bindComingSoon(view, R.id.rowPaymentMethods, getString(R.string.payment_methods), R.drawable.ic_payment_24)
-        bindComingSoon(view, R.id.rowDeliveryAddresses, getString(R.string.delivery_addresses), R.drawable.ic_location_24)
+        configureRow(view, R.id.rowEditProfile, getString(R.string.edit_profile), R.drawable.ic_edit_profile_24)
+            .setOnClickListener {
+                showEditProfileDialog()
+            }
+        configureRow(view, R.id.rowDeliveryAddresses, getString(R.string.delivery_addresses), R.drawable.ic_location_24)
+            .setOnClickListener {
+                showDeliveryAddressDialog()
+            }
 
         val logoutRow = configureRow(
             view,
@@ -72,6 +95,7 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
         view.findViewById<TextView>(R.id.tvProfileName).text = Database.currentDisplayName()
         view.findViewById<TextView>(R.id.tvProfileEmail).text = Database.currentEmail()
         view.findViewById<TextView>(R.id.tvProfileBadge).text = Database.currentProfileBadge()
+        bindProfilePhoto(view.findViewById(R.id.ivProfilePhoto), Database.currentProfileImageUri())
 
         view.findViewById<TextView>(R.id.tvProfileStatOneValue).text = if (isSeller) {
             Database.products.count { it.seller == Database.currentSellerName() }.toString()
@@ -107,6 +131,108 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
         } else {
             getString(R.string.completed_orders)
         }
+    }
+
+    private fun bindProfilePhoto(imageView: ImageView, imageUri: String?) {
+        if (imageUri.isNullOrBlank()) {
+            imageView.setImageResource(R.drawable.ic_profile_24)
+            imageView.setPadding(0, 0, 0, 0)
+            imageView.imageTintList = ColorStateList.valueOf(requireContext().getColor(R.color.secondary_blue))
+        } else {
+            imageView.imageTintList = null
+            imageView.setPadding(0, 0, 0, 0)
+            imageView.setImageURI(Uri.parse(imageUri))
+        }
+    }
+
+    private fun showEditProfileDialog() {
+        val user = Database.currentUser() ?: return
+        val dialogView = layoutInflater.inflate(R.layout.dialog_edit_profile, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        val nameInput = dialogView.findViewById<EditText>(R.id.etEditName)
+        val usernameInput = dialogView.findViewById<EditText>(R.id.etEditUsername)
+        val passwordInput = dialogView.findViewById<EditText>(R.id.etEditPassword)
+        val photo = dialogView.findViewById<ImageView>(R.id.ivEditProfilePhoto)
+
+        editProfileImageUri = user.profileImageUri
+        editProfileImageView = photo
+        nameInput.setText(user.name)
+        usernameInput.setText(user.username)
+        passwordInput.setText(user.pass)
+        bindProfilePhoto(photo, editProfileImageUri)
+
+        dialogView.findViewById<View>(R.id.cardEditProfilePhoto).setOnClickListener {
+            profileImagePicker.launch("image/*")
+        }
+        dialogView.findViewById<AppCompatButton>(R.id.btnEditCancel).setOnClickListener {
+            editProfileImageView = null
+            dialog.dismiss()
+        }
+        dialogView.findViewById<AppCompatButton>(R.id.btnEditSave).setOnClickListener {
+            val name = nameInput.text.toString().trim()
+            val username = usernameInput.text.toString().trim()
+            val password = passwordInput.text.toString()
+
+            if (name.isBlank() || username.isBlank() || password.isBlank()) {
+                Toast.makeText(requireContext(), R.string.all_fields_required, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val updated = Database.updateCurrentProfile(name, username, password, editProfileImageUri)
+            if (!updated) {
+                Toast.makeText(requireContext(), R.string.profile_username_taken, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            profileSheetView?.let(::bindProfileHeader)
+            Toast.makeText(requireContext(), R.string.profile_updated, Toast.LENGTH_SHORT).show()
+            editProfileImageView = null
+            dialog.dismiss()
+        }
+
+        dialog.setOnDismissListener {
+            editProfileImageView = null
+        }
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    }
+
+    private fun showDeliveryAddressDialog() {
+        val user = Database.currentUser() ?: return
+        val dialogView = layoutInflater.inflate(R.layout.dialog_delivery_address, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        val addressInput = dialogView.findViewById<EditText>(R.id.etDialogDeliveryAddress)
+        val phoneInput = dialogView.findViewById<EditText>(R.id.etDialogPhoneNumber)
+        val landmarkInput = dialogView.findViewById<EditText>(R.id.etDialogLandmark)
+
+        addressInput.setText(user.deliveryAddress)
+        phoneInput.setText(user.phoneNumber)
+        landmarkInput.setText(user.landmark)
+
+        dialogView.findViewById<View>(R.id.btnDeliveryCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogView.findViewById<View>(R.id.btnDeliverySave).setOnClickListener {
+            val address = addressInput.text.toString().trim()
+            val phone = phoneInput.text.toString().trim()
+            val landmark = landmarkInput.text.toString().trim()
+            if (address.isBlank() || phone.isBlank() || landmark.isBlank()) {
+                Toast.makeText(requireContext(), R.string.delivery_details_required, Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+            Database.saveCurrentDeliveryDetails(address, phone, landmark)
+            Toast.makeText(requireContext(), R.string.delivery_address_saved, Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
+        }
+
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
     }
 
     private fun bindComingSoon(view: View, rowId: Int, label: String, iconRes: Int) {

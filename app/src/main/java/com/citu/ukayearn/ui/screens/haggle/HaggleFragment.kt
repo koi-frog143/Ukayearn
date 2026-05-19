@@ -146,6 +146,12 @@ class HaggleFragment : Fragment() {
             buyerUsername = Database.currentUsername.ifBlank { "buyer" }
         )
         Database.haggleOffers.add(offer)
+        Database.addTextChatMessage(
+            seller = selectedProduct.seller,
+            senderUsername = Database.currentUsername.ifBlank { "buyer" },
+            body = "Hangyo sent for ${selectedProduct.name}: ${getString(R.string.price_format, offerPrice)}"
+        )
+        Database.markSellerConversationUnread(selectedProduct.seller)
         offerSummary.text = getString(R.string.price_format, offerPrice)
         status.text = getString(R.string.haggle_sent_waiting)
         Toast.makeText(requireContext(), R.string.haggle_sent_to_messages, Toast.LENGTH_SHORT).show()

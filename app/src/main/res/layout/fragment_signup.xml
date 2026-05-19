@@ -173,15 +173,18 @@
                     android:textSize="12sp"
                     android:visibility="gone" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnSignup"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
                     android:layout_marginTop="16dp"
-                    android:backgroundTint="@color/primary_maroon"
+                    android:background="@drawable/btn_gradient_primary"
+                    app:backgroundTint="@null"
                     android:text="@string/signup"
                     android:textAllCaps="false"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textSize="15sp"
+                    android:fontFamily="@font/poppins_bold" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

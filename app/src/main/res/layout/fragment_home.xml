@@ -123,12 +123,15 @@
         <!-- 2. Search Bar -->
         <LinearLayout
             android:id="@+id/searchContainer"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/home_search_gradient_bg"
             android:orientation="horizontal"
             android:padding="8dp"
+            app:layout_constraintEnd_toStartOf="@id/btnPriceFilter"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/locationIconContainer">
 
             <ImageView
@@ -139,6 +142,7 @@
                 app:tint="@color/secondary_blue" />
 
             <EditText
+                android:id="@+id/etHomeSearch"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -150,6 +154,182 @@
                 android:textColorHint="@color/text_muted"
                 android:textSize="14sp" />
 
+            <ImageButton
+                android:id="@+id/btnClearSearch"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_gravity="center"
+                android:background="@drawable/rounded_icon_button_bg"
+                android:contentDescription="@string/clear_search"
+                android:padding="7dp"
+                android:src="@drawable/ic_close_24"
+                android:visibility="gone"
+                app:tint="@color/text_muted" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/priceFilterContainer"
+            android:layout_width="112dp"
+            android:layout_height="50dp"
+            android:background="@drawable/premium_badge_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/searchContainer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/searchContainer">
+
+            <TextView
+                android:id="@+id/btnPriceFilter"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:fontFamily="@font/poppins_semibold"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="@string/sort_price_all"
+                android:textColor="@color/accent_gold"
+                android:textSize="11sp" />
+
+            <ImageButton
+                android:id="@+id/btnClearPriceFilter"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:background="@drawable/rounded_icon_button_bg"
+                android:contentDescription="@string/clear_price_filter"
+                android:padding="6dp"
+                android:src="@drawable/ic_close_24"
+                android:visibility="gone"
+                app:tint="@color/text_muted" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/btnSearchScope"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/premium_badge_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:paddingHorizontal="14dp"
+            android:text="@string/search_all"
+            android:textColor="@color/accent_gold"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/searchContainer" />
+
+        <TextView
+            android:id="@+id/btnSearchCategories"
+            android:layout_width="wrap_content"
+            android:layout_height="34dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/premium_badge_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:paddingHorizontal="14dp"
+            android:text="@string/filter_categories"
+            android:textColor="@color/accent_gold"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/btnSearchScope"
+            app:layout_constraintTop_toBottomOf="@id/searchContainer" />
+
+        <LinearLayout
+            android:id="@+id/searchResultsPanel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/background_light"
+            android:elevation="8dp"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnSearchScope"
+            tools:visibility="visible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/poppins_bold"
+                android:text="@string/search_results"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvSearchShopsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/search_result_shops"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSearchStores"
+                android:layout_width="match_parent"
+                android:layout_height="118dp"
+                android:layout_marginTop="10dp"
+                android:clipToPadding="false"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_home_store" />
+
+            <TextView
+                android:id="@+id/tvSearchEmptyShops"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/cart_notice_bg"
+                android:gravity="center"
+                android:padding="14dp"
+                android:text="@string/search_empty_shops"
+                android:textColor="@color/text_muted"
+                android:textSize="13sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvSearchItemsHeader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="@string/search_result_items"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSearchProducts"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="80dp"
+                android:nestedScrollingEnabled="false"
+                tools:listitem="@layout/item_product_card" />
+
+            <TextView
+                android:id="@+id/tvSearchEmptyItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/cart_notice_bg"
+                android:gravity="center"
+                android:padding="14dp"
+                android:text="@string/search_empty_items"
+                android:textColor="@color/text_muted"
+                android:textSize="13sp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <!-- 3. Promo Banner (Card) -->
@@ -160,7 +340,7 @@
             android:layout_marginTop="20dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
-            app:layout_constraintTop_toBottomOf="@id/searchContainer">
+            app:layout_constraintTop_toBottomOf="@id/btnSearchScope">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -329,6 +509,7 @@
             android:layout_height="wrap_content"
             android:text="@string/see_all"
             android:textColor="@color/text_muted"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvCategoryHeader" />
 
