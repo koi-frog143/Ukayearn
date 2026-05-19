@@ -68,12 +68,27 @@
         <action
             android:id="@+id/action_cart_to_details"
             app:destination="@id/nav_details" />
+        <action
+            android:id="@+id/action_cart_to_checkout"
+            app:destination="@id/nav_checkout" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_checkout"
+        android:name="com.citu.ukayearn.ui.screens.cart.CheckoutFragment"
+        android:label="@string/checkout"
+        tools:layout="@layout/fragment_checkout" />
 
     <fragment
         android:id="@+id/nav_haggle"
         android:name="com.citu.ukayearn.ui.screens.haggle.HaggleFragment"
         android:label="@string/haggle"
         tools:layout="@layout/fragment_haggle" />
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.citu.ukayearn.ui.screens.chat.ChatFragment"
+        android:label="@string/chat"
+        tools:layout="@layout/fragment_chat" />
 
 </navigation>

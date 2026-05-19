@@ -18,9 +18,12 @@
             android:id="@+id/tvLocationLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:text="@string/location_label"
             android:textColor="@color/text_muted"
             android:textSize="12sp"
+            app:layout_constraintEnd_toStartOf="@id/btnProfile"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -28,11 +31,51 @@
             android:id="@+id/tvLocationValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="12dp"
             android:text="@string/location_value"
             android:textStyle="bold"
             android:textColor="@color/black"
+            app:layout_constraintEnd_toStartOf="@id/btnProfile"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvLocationLabel" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/btnProfile"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:clickable="true"
+            android:contentDescription="@string/open_profile"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/accent_gold"
+            app:strokeWidth="1dp">
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_profile_24"
+                    app:tint="@color/secondary_blue" />
+
+                <View
+                    android:layout_width="9dp"
+                    android:layout_height="9dp"
+                    android:layout_gravity="top|end"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/profile_status_dot" />
+            </FrameLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- 2. Search Bar -->
         <LinearLayout

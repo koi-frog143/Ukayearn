@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.Database
+import com.citu.ukayearn.ui.screens.profile.ProfileBottomSheetFragment
 
 class HomeFragment : Fragment() {
 
@@ -27,6 +28,10 @@ class HomeFragment : Fragment() {
         // Get our hardcoded products and attach the adapter
         val adapter = ProductAdapter(Database.products)
         recyclerView.adapter = adapter
+
+        view.findViewById<View>(R.id.btnProfile).setOnClickListener {
+            ProfileBottomSheetFragment().show(parentFragmentManager, ProfileBottomSheetFragment.TAG)
+        }
 
         return view
     }

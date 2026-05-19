@@ -18,22 +18,20 @@
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_container"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- The Floating Nav Container -->
+    <!-- Bottom Navigation -->
     <FrameLayout
         android:id="@+id/bottom_nav_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/nav_bg_floating"
-        android:elevation="8dp"
-        android:padding="4dp"
+        android:layout_height="72dp"
+        android:background="@drawable/nav_bg_attached"
+        android:elevation="10dp"
+        android:paddingTop="2dp"
         app:layout_constraintBottom_toBottomOf="parent">
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:background="@color/transparent"
             app:elevation="0dp"
             app:itemIconTint="@color/bottom_nav_item"

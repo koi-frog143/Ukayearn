@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
@@ -14,24 +16,54 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <TextView
-            android:id="@+id/tvCartSeller"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cbCartSelected"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:buttonTint="@color/primary_maroon"
+                android:checked="true" />
+
+            <TextView
+                android:id="@+id/tvCartSeller"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="ThriftKada" />
+
+            <ImageButton
+                android:id="@+id/btnDeleteCartItem"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/delete_item"
+                android:padding="9dp"
+                android:src="@drawable/ic_delete_24"
+                app:tint="@color/error" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/productContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="76dp"
-                android:layout_height="76dp"
-                android:background="@color/category_bg"
+                android:layout_width="86dp"
+                android:layout_height="86dp"
+                android:background="@drawable/cart_product_image_bg"
                 android:contentDescription="@string/product_name_placeholder"
                 android:padding="18dp"
                 android:scaleType="centerInside"
@@ -53,38 +85,50 @@
                     android:maxLines="2"
                     android:textColor="@color/black"
                     android:textSize="14sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    tools:text="Vintage Carhartt Detroit Jacket" />
 
                 <TextView
                     android:id="@+id/tvCartProductDescription"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textColor="@color/text_muted"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="Faded moss green, perfect streetwear piece." />
+
+                <TextView
+                    android:id="@+id/tvCartPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/primary_maroon"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    tools:text="PHP 1,200" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/tvCartPrice"
+                        android:id="@+id/tvCartLineTotal"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:textColor="@color/primary_maroon"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
+                        android:textColor="@color/text_muted"
+                        android:textSize="12sp"
+                        tools:text="Total: PHP 1,200" />
 
                     <TextView
                         android:id="@+id/btnDecreaseQuantity"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/qty_button_bg"
                         android:clickable="true"
                         android:focusable="true"
@@ -95,8 +139,8 @@
 
                     <TextView
                         android:id="@+id/tvCartQuantity"
-                        android:layout_width="32dp"
-                        android:layout_height="28dp"
+                        android:layout_width="36dp"
+                        android:layout_height="30dp"
                         android:gravity="center"
                         android:text="@string/quantity_default"
                         android:textColor="@color/black"
@@ -104,8 +148,8 @@
 
                     <TextView
                         android:id="@+id/btnIncreaseQuantity"
-                        android:layout_width="28dp"
-                        android:layout_height="28dp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:background="@drawable/qty_button_bg"
                         android:clickable="true"
                         android:focusable="true"

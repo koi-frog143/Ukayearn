@@ -49,6 +49,7 @@ class LoginFragment : Fragment() {
             val isValid = Database.users.any { it.username == user && it.pass == pass }
 
             if (isValid) {
+                Database.currentUsername = user
                 tvError.visibility = View.GONE
                 findNavController().navigate(R.id.action_login_to_home)
             } else {

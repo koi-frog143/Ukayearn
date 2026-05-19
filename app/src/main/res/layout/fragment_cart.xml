@@ -48,7 +48,7 @@
                         android:layout_marginTop="2dp"
                         android:textColor="@color/text_muted"
                         android:textSize="12sp"
-                        tools:text="2 locked finds" />
+                        tools:text="2 selected items" />
                 </LinearLayout>
 
                 <TextView
@@ -64,15 +64,35 @@
                     tools:text="10:30 AM" />
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/cart_notice_bg"
-                android:padding="14dp"
-                android:text="@string/cart_notice"
-                android:textColor="@color/black"
-                android:textSize="13sp" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="14dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/cart_notice"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/tvSelectedCountBadge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="@drawable/premium_badge_bg"
+                    android:gravity="center"
+                    android:paddingHorizontal="10dp"
+                    android:textColor="@color/accent_gold"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="2 selected" />
+            </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvCartItems"
@@ -206,13 +226,25 @@
         android:elevation="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="16dp"
+        android:paddingHorizontal="14dp"
         app:layout_constraintBottom_toBottomOf="parent">
+
+        <CheckBox
+            android:id="@+id/cbSelectAll"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:buttonTint="@color/primary_maroon"
+            android:checked="true"
+            android:text="@string/select_all"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_weight="1"
+            android:gravity="end"
             android:orientation="vertical">
 
             <TextView
@@ -227,15 +259,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/primary_maroon"
-                android:textSize="20sp"
+                android:textSize="19sp"
                 android:textStyle="bold"
                 tools:text="PHP 2,170" />
         </LinearLayout>
 
         <Button
             android:id="@+id/btnCheckout"
-            android:layout_width="140dp"
+            android:layout_width="128dp"
             android:layout_height="52dp"
+            android:layout_marginStart="10dp"
             android:backgroundTint="@color/primary_maroon"
             android:text="@string/checkout"
             android:textAllCaps="false"

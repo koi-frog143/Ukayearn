@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    tools:context=".ui.screens.chat.ChatFragment">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/inboxContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:paddingBottom="24dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/messages_title"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="6dp"
+                android:text="@string/messages_subtitle"
+                android:textColor="@color/text_muted"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:id="@+id/rowThriftKada"
+                style="@style/ChatThreadRow"
+                android:layout_marginTop="18dp">
+
+                <FrameLayout
+                    android:layout_width="48dp"
+                    android:layout_height="48dp">
+
+                    <TextView
+                        style="@style/ChatAvatar"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:text="T" />
+
+                    <View
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_gravity="bottom|end"
+                        android:background="@drawable/profile_status_dot" />
+                </FrameLayout>
+
+                <LinearLayout style="@style/ChatThreadContent">
+
+                    <TextView
+                        android:id="@+id/tvThreadThriftKada"
+                        style="@style/ChatSellerName"
+                        android:layout_width="match_parent"
+                        android:layout_weight="0"
+                        android:text="@string/thriftkada" />
+
+                    <TextView
+                        android:id="@+id/tvPreviewThriftKada"
+                        style="@style/ChatPreview"
+                        android:text="@string/chat_preview_thriftkada" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/ChatTime"
+                        android:text="@string/chat_time_now" />
+
+                    <TextView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/chat_unread_count_bg"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rowRetroLane"
+                style="@style/ChatThreadRow">
+
+                <TextView
+                    style="@style/ChatAvatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="R" />
+
+                <LinearLayout style="@style/ChatThreadContent">
+
+                    <TextView
+                        android:id="@+id/tvThreadRetroLane"
+                        style="@style/ChatSellerName"
+                        android:layout_width="match_parent"
+                        android:layout_weight="0"
+                        android:text="@string/retro_lane" />
+
+                    <TextView
+                        android:id="@+id/tvPreviewRetroLane"
+                        style="@style/ChatPreview"
+                        android:text="@string/chat_preview_retro_lane" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/ChatTime"
+                    android:text="@string/chat_time_minutes" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rowCebuFinds"
+                style="@style/ChatThreadRow">
+
+                <TextView
+                    style="@style/ChatAvatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="C" />
+
+                <LinearLayout style="@style/ChatThreadContent">
+
+                    <TextView
+                        android:id="@+id/tvThreadCebuFinds"
+                        style="@style/ChatSellerName"
+                        android:layout_width="match_parent"
+                        android:layout_weight="0"
+                        android:text="@string/cebu_finds" />
+
+                    <TextView
+                        android:id="@+id/tvPreviewCebuFinds"
+                        style="@style/ChatPreview"
+                        android:text="@string/chat_preview_cebu_finds" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/ChatTime"
+                    android:text="@string/chat_time_hour" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rowUkayBoss"
+                style="@style/ChatThreadRow">
+
+                <TextView
+                    style="@style/ChatAvatar"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:text="U" />
+
+                <LinearLayout style="@style/ChatThreadContent">
+
+                    <TextView
+                        android:id="@+id/tvThreadUkayBoss"
+                        style="@style/ChatSellerName"
+                        android:layout_width="match_parent"
+                        android:layout_weight="0"
+                        android:text="@string/ukay_boss" />
+
+                    <TextView
+                        android:id="@+id/tvPreviewUkayBoss"
+                        style="@style/ChatPreview"
+                        android:text="@string/chat_preview_ukay_boss" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/ChatTime"
+                    android:text="@string/chat_time_hour" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvEmptyMessages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/cart_notice_bg"
+                android:gravity="center"
+                android:lineSpacingExtra="3dp"
+                android:padding="18dp"
+                android:text="@string/seller_empty_messages"
+                android:textColor="@color/text_muted"
+                android:textSize="13sp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/conversationContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/chatComposerBar"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:background="@color/surface_light"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp">
+
+            <ImageButton
+                android:id="@+id/btnBackToInbox"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/back_to_messages"
+                android:src="@drawable/ic_arrow_back_24"
+                app:tint="@color/black" />
+
+            <FrameLayout
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="2dp">
+
+                <TextView
+                    android:id="@+id/tvActiveInitial"
+                    style="@style/ChatAvatar"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:text="S" />
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="bottom|end"
+                    android:background="@drawable/profile_status_dot" />
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tvActiveSeller"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    tools:text="ThriftKada" />
+
+                <TextView
+                    android:id="@+id/tvSellerStatus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/secondary_blue"
+                    android:textSize="12sp"
+                    tools:text="Online now" />
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/btnChatInfo"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="@string/chat_info"
+                android:src="@drawable/ic_info_24"
+                app:tint="@color/black" />
+        </LinearLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/chat_date_pill_bg"
+                    android:gravity="center"
+                    android:paddingHorizontal="12dp"
+                    android:text="@string/chat_date_today"
+                    android:textColor="@color/text_muted"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:id="@+id/haggleOfferCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:background="@drawable/haggle_widget_bg"
+                    android:orientation="vertical"
+                    android:padding="14dp"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/tvHaggleWidgetTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/haggle_sent"
+                        android:textColor="@color/black"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvHaggleWidgetBody"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:lineSpacingExtra="3dp"
+                        android:textColor="@color/text_muted"
+                        android:textSize="13sp"
+                        tools:text="Vintage jacket offer: PHP 1,000\nWaiting for seller's response" />
+
+                    <LinearLayout
+                        android:id="@+id/sellerHaggleActions"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        tools:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/btnDeclineHaggle"
+                            android:layout_width="0dp"
+                            android:layout_height="42dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/haggle_decline_bg"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:text="@string/decline"
+                            android:textColor="@color/error"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/btnApproveHaggle"
+                            android:layout_width="0dp"
+                            android:layout_height="42dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/chat_send_button_bg"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:text="@string/approve"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sellerPresetMessageRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ChatAvatar"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="T"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="56dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvSellerChatMessage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/chat_seller_bubble_bg"
+                            android:lineSpacingExtra="3dp"
+                            android:padding="12dp"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            tools:text="Available pa. I can ship this afternoon." />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/chat_time_1015"
+                            android:textColor="@color/text_muted"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/buyerPresetMessageRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="end|bottom"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="56dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/chat_buyer_bubble_bg"
+                            android:lineSpacingExtra="3dp"
+                            android:padding="12dp"
+                            android:text="@string/chat_buyer_message"
+                            android:textColor="@color/white"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/chat_time_1016"
+                            android:textColor="@color/text_muted"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/sellerImageMessageRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/ChatAvatar"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:text="T"
+                        android:textSize="13sp" />
+
+                    <LinearLayout
+                        android:layout_width="156dp"
+                        android:layout_height="132dp"
+                        android:layout_marginStart="8dp"
+                        android:background="@drawable/chat_picture_bg"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <ImageView
+                            android:layout_width="44dp"
+                            android:layout_height="44dp"
+                            android:src="@android:drawable/ic_menu_gallery"
+                            app:tint="@color/text_muted" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="@string/chat_image_label"
+                            android:textColor="@color/text_muted"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvSellerImageTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/chat_time_1017"
+                    android:textColor="@color/text_muted"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:id="@+id/sentMessageRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="end|bottom"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="56dp"
+                        android:layout_weight="1"
+                        android:gravity="end"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvBuyerChatMessage"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/chat_buyer_bubble_bg"
+                            android:lineSpacingExtra="3dp"
+                            android:padding="12dp"
+                            android:textColor="@color/white"
+                            android:textSize="14sp"
+                            android:visibility="gone"
+                            tools:text="I will check out now."
+                            tools:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/tvBuyerChatTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/chat_time_now"
+                            android:textColor="@color/text_muted"
+                            android:textSize="11sp"
+                            android:visibility="gone"
+                            tools:visibility="visible" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chatComposerBar"
+        android:layout_width="match_parent"
+        android:layout_height="84dp"
+        android:background="@color/surface_light"
+        android:elevation="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/btnAttachImage"
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/attach_image"
+            android:src="@drawable/ic_camera_24"
+            app:tint="@color/text_muted" />
+
+        <EditText
+            android:id="@+id/etMessage"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/chat_input_bg"
+            android:hint="@string/message_hint"
+            android:paddingHorizontal="14dp"
+            android:singleLine="true"
+            android:textColor="@color/black"
+            android:textColorHint="@color/text_muted"
+            android:textSize="14sp" />
+
+        <ImageButton
+            android:id="@+id/btnSendMessage"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/chat_send_circle_bg"
+            android:clickable="true"
+            android:contentDescription="@string/send"
+            android:focusable="true"
+            android:padding="12dp"
+            android:src="@drawable/ic_send_24"
+            app:tint="@color/white" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
