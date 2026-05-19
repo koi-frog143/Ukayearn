@@ -4,8 +4,26 @@
 
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
+    <string name="confirm_password_hint">Confirm password</string>
     <string name="login">Login</string>
+    <string name="login_title">Welcome back</string>
+    <string name="login_subtitle">Pick up where you left off with your thrift finds.</string>
+    <string name="login_details">Login details</string>
+    <string name="login_perk">Track locked cart items, revisit saved finds, and keep your hangyo going.</string>
+    <string name="signup">Sign Up</string>
+    <string name="sign_up_account">Create your Ukayearn account</string>
+    <string name="signup_subtitle">Save thrift finds, lock items in your cart, and hangyo with sellers.</string>
+    <string name="account_details">Account details</string>
+    <string name="buyer_perk">Built for Cebu ukay finds, quick cart locks, and friendly offers.</string>
+    <string name="already_have_account">Don\'t have an account yet? Sign up</string>
+    <string name="login_instead">Already have an account? Log in</string>
     <string name="invalid_credentials">Invalid credentials</string>
+    <string name="all_fields_required">All fields are required</string>
+    <string name="password_mismatch">Passwords do not match</string>
+    <string name="username_exists">Username already exists</string>
+    <string name="signup_success">Account created successfully!</string>
+    <string name="toggle_password_visibility">Toggle password visibility</string>
+    <string name="toggle_confirm_password_visibility">Toggle confirm password visibility</string>
 
     <string name="location_label">Location</string>
     <string name="location_value">Cebu City, PH</string>
