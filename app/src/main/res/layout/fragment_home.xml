@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
+    android:id="@+id/homeScrollView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -13,31 +14,73 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
+        <View
+            android:id="@+id/homeTopMotif"
+            android:layout_width="112dp"
+            android:layout_height="112dp"
+            android:layout_marginTop="-38dp"
+            android:layout_marginEnd="-36dp"
+            
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/homeLeafMotif"
+            android:layout_width="62dp"
+            android:layout_height="62dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="50dp"
+            android:alpha="0.18"
+            android:rotation="18"
+            android:src="@drawable/splash_motif_leaf"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <!-- 1. Header: Location and Notification -->
+        <FrameLayout
+            android:id="@+id/locationIconContainer"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:background="@drawable/home_section_icon_bg"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_location_24"
+                app:tint="@color/secondary_blue" />
+        </FrameLayout>
+
         <TextView
             android:id="@+id/tvLocationLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="12dp"
+            android:fontFamily="@font/poppins_light"
             android:text="@string/location_label"
             android:textColor="@color/text_muted"
             android:textSize="12sp"
             app:layout_constraintEnd_toStartOf="@id/btnProfile"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@id/locationIconContainer"
+            app:layout_constraintTop_toTopOf="@id/locationIconContainer" />
 
         <TextView
             android:id="@+id/tvLocationValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:layout_marginEnd="12dp"
+            android:fontFamily="@font/poppins_semibold"
             android:text="@string/location_value"
-            android:textStyle="bold"
             android:textColor="@color/black"
+            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/btnProfile"
             app:layout_constraintHorizontal_bias="0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/locationIconContainer"
             app:layout_constraintTop_toBottomOf="@id/tvLocationLabel" />
 
         <com.google.android.material.card.MaterialCardView
@@ -83,23 +126,24 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
-            android:background="@drawable/search_bg"
+            android:background="@drawable/home_search_gradient_bg"
             android:orientation="horizontal"
             android:padding="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tvLocationValue">
+            app:layout_constraintTop_toBottomOf="@id/locationIconContainer">
 
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@android:drawable/ic_menu_search"
-                app:tint="@color/text_muted" />
+                android:src="@drawable/ic_search_24"
+                app:tint="@color/secondary_blue" />
 
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@android:color/transparent"
+                android:fontFamily="@font/poppins_regular"
                 android:hint="@string/search_hint"
                 android:paddingStart="10dp"
                 android:textColor="@color/black"
@@ -121,7 +165,26 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/banner_bg">
+                android:background="@drawable/home_banner_gradient">
+
+                <View
+                    android:layout_width="88dp"
+                    android:layout_height="88dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="-28dp"
+                    android:layout_marginEnd="-24dp"
+                    android:background="@drawable/home_soft_motif_circle" />
+
+                <ImageView
+                    android:layout_width="90dp"
+                    android:layout_height="38dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:alpha="0.24"
+                    android:src="@drawable/splash_motif_stitches" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -133,38 +196,100 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_bold"
                         android:text="@string/new_collection"
-                        android:textStyle="bold"
+                        android:textColor="@color/black"
                         android:textSize="18sp"
-                        android:textColor="@color/black" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_light"
                         android:text="@string/first_transaction_discount"
                         android:textColor="@color/text_muted"
                         android:textSize="12sp" />
 
                     <Button
+                        android:id="@+id/btnShopNewCollection"
                         android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="10dp"
-                        android:backgroundTint="@color/primary_maroon"
-                        android:text="@string/shop_now"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/primary_maroon"
+                    app:cornerRadius="16dp"
+                    android:text="@string/shop_now"
                         android:textColor="@color/white"
                         android:textSize="10sp"
                         android:textAllCaps="false" />
                 </LinearLayout>
 
                 <ImageView
+                    android:id="@+id/ivNewCollectionPreview"
                     android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="9dp"
                     android:scaleType="centerCrop"
                     android:src="@android:drawable/ic_menu_gallery" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/tvStoresHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="34dp"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="@string/featured_shops"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/bannerCard" />
+
+        <FrameLayout
+            android:id="@+id/featuredIconContainer"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:background="@drawable/home_section_icon_bg"
+            app:layout_constraintBottom_toBottomOf="@id/tvStoresHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvStoresHeader">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_store_24"
+                app:tint="@color/secondary_blue" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tvSeeAllStores"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/premium_badge_bg"
+            android:clickable="true"
+            android:focusable="true"
+            android:fontFamily="@font/poppins_semibold"
+            android:gravity="center"
+            android:paddingHorizontal="10dp"
+            android:text="@string/see_all"
+            android:textColor="@color/accent_gold"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="@id/tvStoresHeader"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvStoresHeader" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvStores"
+            android:layout_width="match_parent"
+            android:layout_height="118dp"
+            android:layout_marginTop="12dp"
+            android:clipToPadding="false"
+            app:layout_constraintTop_toBottomOf="@id/tvStoresHeader"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_home_store" />
 
         <!-- 4. Categories Section -->
         <TextView
@@ -172,14 +297,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:layout_marginStart="34dp"
             android:text="@string/category"
+            android:fontFamily="@font/poppins_semibold"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bannerCard" />
+            app:layout_constraintTop_toBottomOf="@id/rvStores" />
+
+        <FrameLayout
+            android:id="@+id/categoryIconHeader"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:background="@drawable/home_section_icon_bg"
+            app:layout_constraintBottom_toBottomOf="@id/tvCategoryHeader"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvCategoryHeader">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_sparkle_24"
+                app:tint="@color/secondary_blue" />
+        </FrameLayout>
 
         <TextView
+            android:id="@+id/tvSeeAllCategories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/see_all"
@@ -187,20 +332,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tvCategoryHeader" />
 
-        <LinearLayout
-            android:id="@+id/categoryLayout"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCategories"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="88dp"
             android:layout_marginTop="12dp"
+            android:clipToPadding="false"
             android:orientation="horizontal"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@id/tvCategoryHeader">
-
-            <include layout="@layout/item_category_placeholder" />
-            <include layout="@layout/item_category_placeholder" />
-            <include layout="@layout/item_category_placeholder" />
-            <include layout="@layout/item_category_placeholder" />
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/tvCategoryHeader"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_home_category" />
 
         <!-- 5. Flash Sale / Catalog Grid -->
         <TextView
@@ -208,12 +349,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:layout_marginStart="34dp"
             android:text="@string/flash_sale"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/categoryLayout" />
+            android:fontFamily="@font/poppins_semibold"
+            app:layout_constraintTop_toBottomOf="@id/rvCategories" />
+
+        <FrameLayout
+            android:id="@+id/newFindsIconHeader"
+            android:layout_width="26dp"
+            android:layout_height="26dp"
+            android:background="@drawable/home_section_icon_bg"
+            app:layout_constraintBottom_toBottomOf="@id/tvFlashSale"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tvFlashSale">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_leaf_24"
+                app:tint="@color/secondary_blue" />
+        </FrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvProducts"

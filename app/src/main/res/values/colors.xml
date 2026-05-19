@@ -18,6 +18,7 @@
     <color name="text_muted">#686C55</color>
     <color name="error">#B3261E</color>
     <color name="nav_bg">#FFFDF5</color>
+    <color name="nav_item_ripple">#2249601E</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#1E2110</color>
     <color name="transparent">#00000000</color>

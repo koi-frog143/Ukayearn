@@ -5,11 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.Database
+import com.citu.ukayearn.ui.util.AssetImageLoader
 
 class ProductDetailsFragment : Fragment() {
 
@@ -24,6 +26,7 @@ class ProductDetailsFragment : Fragment() {
             view.findViewById<TextView>(R.id.tvDetailPrice).text = getString(R.string.price_format, it.price)
             view.findViewById<TextView>(R.id.tvDetailDescription).text = it.description
             view.findViewById<TextView>(R.id.tvDetailSeller).text = getString(R.string.seller_format, it.seller)
+            AssetImageLoader.load(view.findViewById<ImageView>(R.id.ivDetailImage), it.imageUrl)
         }
 
         view.findViewById<Button>(R.id.btnHaggle).setOnClickListener {

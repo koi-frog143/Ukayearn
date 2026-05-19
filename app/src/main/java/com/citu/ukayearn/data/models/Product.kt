@@ -7,5 +7,8 @@ data class Product(
     val price: Double,
     val originalPrice: Double, // Added this specifically for your Feature 7 (Thrift History/Relief)
     val seller: String,
+    val category: String,
+    val imageUrl: String,
+    val dateAdded: String,
     val isLocked: Boolean = false // For Feature 6: The 15-minute cart lock
 )

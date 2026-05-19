@@ -1,12 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.Ukayearn" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Theme.Ukayearn" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowBackground">@color/background_light</item>
         <item name="android:colorAccent">@color/secondary_blue</item>
         <item name="android:navigationBarColor">@color/background_light</item>
         <item name="android:statusBarColor">@color/primary_maroon</item>
         <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fontFamily">@font/poppins_regular</item>
+        <item name="fontFamily">@font/poppins_regular</item>
+        <item name="buttonStyle">@style/Widget.Ukayearn.RoundedButton</item>
+        <item name="materialButtonStyle">@style/Widget.Ukayearn.RoundedButton</item>
+    </style>
+
+    <style name="Widget.Ukayearn.RoundedButton" parent="Widget.MaterialComponents.Button">
+        <item name="cornerRadius">16dp</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="rippleColor">@color/nav_item_ripple</item>
+    </style>
+
+    <style name="BottomNavText" parent="TextAppearance.MaterialComponents.Caption">
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:includeFontPadding">false</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:lineHeight">12sp</item>
     </style>
 
     <style name="ChatThreadRow">
@@ -100,5 +119,42 @@
         <item name="android:textColor">@color/primary_maroon</item>
         <item name="android:textSize">13sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ShopStatColumn">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="ShopStatValue">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily">@font/poppins_bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ShopStatLabel">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:fontFamily">@font/poppins_light</item>
+        <item name="android:textColor">@color/text_muted</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="ShopPolicyChip">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/premium_badge_bg</item>
+        <item name="android:fontFamily">@font/poppins_semibold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/accent_gold</item>
+        <item name="android:textSize">11sp</item>
     </style>
 </resources>

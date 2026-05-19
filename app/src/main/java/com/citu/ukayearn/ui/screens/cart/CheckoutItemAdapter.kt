@@ -3,10 +3,12 @@ package com.citu.ukayearn.ui.screens.cart
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.Database
+import com.citu.ukayearn.ui.util.AssetImageLoader
 
 class CheckoutItemAdapter(
     private val items: List<CheckoutItem>
@@ -24,6 +26,7 @@ class CheckoutItemAdapter(
         holder.tvName.text = item.product.name
         holder.tvSeller.text = item.product.seller
         holder.tvQuantity.text = context.getString(R.string.checkout_quantity_format, item.quantity)
+        AssetImageLoader.load(holder.ivImage, item.product.imageUrl)
         holder.tvPrice.text = context.getString(
             R.string.price_format,
             Database.effectiveCartUnitPrice(item.product) * item.quantity
@@ -33,6 +36,7 @@ class CheckoutItemAdapter(
     override fun getItemCount(): Int = items.size
 
     class CheckoutItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val ivImage: ImageView = itemView.findViewById(R.id.ivCheckoutProductImage)
         val tvName: TextView = itemView.findViewById(R.id.tvCheckoutProductName)
         val tvSeller: TextView = itemView.findViewById(R.id.tvCheckoutSeller)
         val tvQuantity: TextView = itemView.findViewById(R.id.tvCheckoutQuantity)

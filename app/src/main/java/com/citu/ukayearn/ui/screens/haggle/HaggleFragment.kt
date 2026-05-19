@@ -8,6 +8,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.Database
 import com.citu.ukayearn.data.models.Product
+import com.citu.ukayearn.ui.util.AssetImageLoader
 
 class HaggleFragment : Fragment() {
     private lateinit var cartProducts: List<Product>
@@ -26,6 +28,7 @@ class HaggleFragment : Fragment() {
     private lateinit var productName: TextView
     private lateinit var sellerName: TextView
     private lateinit var productPrice: TextView
+    private lateinit var productImage: ImageView
     private lateinit var selectedItemLabel: TextView
     private lateinit var currentPriceSummary: TextView
     private lateinit var offerSummary: TextView
@@ -50,6 +53,7 @@ class HaggleFragment : Fragment() {
         productName = view.findViewById(R.id.tvHaggleProductName)
         sellerName = view.findViewById(R.id.tvHaggleSeller)
         productPrice = view.findViewById(R.id.tvHagglePrice)
+        productImage = view.findViewById(R.id.ivHaggleProductImage)
         selectedItemLabel = view.findViewById(R.id.tvSelectedItemLabel)
         currentPriceSummary = view.findViewById(R.id.tvCurrentPriceSummary)
         offerSummary = view.findViewById(R.id.tvOfferSummary)
@@ -80,12 +84,7 @@ class HaggleFragment : Fragment() {
     }
 
     private fun setupProductDropdown(spinner: Spinner, picker: LinearLayout) {
-        val labels = cartProducts.map { "${it.name} - ${it.seller}" }
-        spinner.adapter = ArrayAdapter(
-            requireContext(),
-            android.R.layout.simple_spinner_dropdown_item,
-            labels
-        )
+        spinner.adapter = ProductDropdownAdapter(cartProducts)
         picker.setOnClickListener {
             spinner.performClick()
         }
@@ -103,6 +102,7 @@ class HaggleFragment : Fragment() {
         productName.text = product.name
         sellerName.text = getString(R.string.seller_format, product.seller)
         productPrice.text = getString(R.string.price_format, product.price)
+        AssetImageLoader.load(productImage, product.imageUrl)
         selectedItemLabel.text = "${product.name} - ${product.seller}"
         currentPriceSummary.text = getString(R.string.price_format, product.price)
         offerSummary.text = getString(R.string.no_offer_yet)
@@ -155,5 +155,28 @@ class HaggleFragment : Fragment() {
         private const val OFFER_FIVE_PERCENT = 0.05
         private const val OFFER_TEN_PERCENT = 0.10
         private const val OFFER_FIFTEEN_PERCENT = 0.15
+    }
+
+    private inner class ProductDropdownAdapter(
+        products: List<Product>
+    ) : ArrayAdapter<Product>(requireContext(), R.layout.item_haggle_dropdown, products) {
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+            return createProductRow(position, convertView, parent)
+        }
+
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+            return createProductRow(position, convertView, parent)
+        }
+
+        private fun createProductRow(position: Int, convertView: View?, parent: ViewGroup): View {
+            val view = convertView ?: layoutInflater.inflate(R.layout.item_haggle_dropdown, parent, false)
+            val product = getItem(position) ?: return view
+
+            view.findViewById<TextView>(R.id.tvDropdownProductName).text = product.name
+            view.findViewById<TextView>(R.id.tvDropdownSeller).text = product.seller
+            view.findViewById<TextView>(R.id.tvDropdownPrice).text = getString(R.string.price_format, product.price)
+            return view
+        }
     }
 }

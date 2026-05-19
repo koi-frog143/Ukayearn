@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Ukayearn</string>
     <string name="brand_name">Ukayearn.</string>
+    <string name="splash_tagline">Curated thrift finds in Cebu</string>
 
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
@@ -35,6 +36,30 @@
     <string name="see_all">See All</string>
     <string name="category_item_placeholder">Item</string>
     <string name="flash_sale">Flash Sale</string>
+    <string name="newest_finds">New Collection</string>
+    <string name="all_finds">All Finds</string>
+    <string name="category_finds_format">%1$s Finds</string>
+    <string name="featured_shops">Featured Shops</string>
+    <string name="verified">Verified</string>
+    <plurals name="store_listing_count">
+        <item quantity="one">%d listing</item>
+        <item quantity="other">%d listings</item>
+    </plurals>
+    <string name="shop">Shop</string>
+    <string name="back">Back</string>
+    <string name="follow_shop">Follow</string>
+    <string name="followed_shop_format">Followed %1$s.</string>
+    <string name="shop_rating">Rating</string>
+    <string name="shop_items">Items</string>
+    <string name="shop_response">Response</string>
+    <string name="shop_rating_format">%1$.1f rating</string>
+    <string name="shop_followers_format">%1$,d followers</string>
+    <string name="shop_response_rate_format">%1$d%%</string>
+    <string name="shop_service_title">Shop Services</string>
+    <string name="shop_cod">COD available</string>
+    <string name="shop_haggle">Accepts hangyo</string>
+    <string name="shop_fast_reply">Fast replies</string>
+    <string name="shop_products">Shop Items</string>
     <string name="open_profile">Open profile</string>
     <string name="profile_title">Profile</string>
     <string name="profile_name">Admin</string>
@@ -113,6 +138,7 @@
 
     <string name="haggle_title">Hangyo Counter</string>
     <string name="haggle_subtitle">Choose a cart item, send your best offer, and wait for the shop response in Messages.</string>
+    <string name="haggle_header_note">Pick a cart find, offer kindly, wait for seller approval</string>
     <string name="active_item">Active Item</string>
     <string name="asking_price">Asking Price</string>
     <string name="seller_note">Seller note</string>

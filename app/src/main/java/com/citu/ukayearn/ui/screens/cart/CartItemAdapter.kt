@@ -5,11 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.Database
 import com.citu.ukayearn.data.models.Product
+import com.citu.ukayearn.ui.util.AssetImageLoader
 
 data class CartUiItem(
     val product: Product,
@@ -38,6 +40,7 @@ class CartItemAdapter(
         holder.tvSeller.text = item.product.seller
         holder.tvName.text = item.product.name
         holder.tvDescription.text = item.product.description
+        AssetImageLoader.load(holder.ivImage, item.product.imageUrl)
         val effectivePrice = Database.effectiveCartUnitPrice(item.product)
         holder.tvPrice.text = if (effectivePrice < item.product.price) {
             context.getString(
@@ -106,6 +109,7 @@ class CartItemAdapter(
     class CartItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val cbSelected: CheckBox = itemView.findViewById(R.id.cbCartSelected)
         val productContent: View = itemView.findViewById(R.id.productContent)
+        val ivImage: ImageView = itemView.findViewById(R.id.ivCartProductImage)
         val tvSeller: TextView = itemView.findViewById(R.id.tvCartSeller)
         val tvName: TextView = itemView.findViewById(R.id.tvCartProductName)
         val tvDescription: TextView = itemView.findViewById(R.id.tvCartProductDescription)

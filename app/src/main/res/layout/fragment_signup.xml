@@ -124,8 +124,9 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-                        android:background="?attr/selectableItemBackground"
+                        android:background="@drawable/rounded_icon_button_bg"
                         android:contentDescription="@string/toggle_password_visibility"
+                        android:padding="12dp"
                         android:scaleType="centerInside"
                         android:src="@android:drawable/ic_menu_view"
                         android:tint="@color/text_muted" />
@@ -155,8 +156,9 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="end|center_vertical"
-                        android:background="?attr/selectableItemBackground"
+                        android:background="@drawable/rounded_icon_button_bg"
                         android:contentDescription="@string/toggle_confirm_password_visibility"
+                        android:padding="12dp"
                         android:scaleType="centerInside"
                         android:src="@android:drawable/ic_menu_view"
                         android:tint="@color/text_muted" />

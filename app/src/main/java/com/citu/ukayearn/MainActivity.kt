@@ -2,6 +2,7 @@ package com.citu.ukayearn
 
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         val bottomNavContainer = findViewById<FrameLayout>(R.id.bottom_nav_container)
 
         bottomNav.setupWithNavController(navController)
+        compactBottomNavSpacing(bottomNav)
 
         // Magic trick: Hide the nav bar if we are on splash, login, or signup!
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -37,4 +39,36 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+    private fun compactBottomNavSpacing(bottomNav: BottomNavigationView) {
+        bottomNav.post {
+            val menuView = bottomNav.getChildAt(0) as? ViewGroup ?: return@post
+            bottomNav.clipChildren = false
+            bottomNav.clipToPadding = false
+            menuView.clipChildren = false
+            menuView.clipToPadding = false
+            for (index in 0 until menuView.childCount) {
+                val itemView = menuView.getChildAt(index) as? ViewGroup ?: continue
+                val icon = itemView.findViewById<View>(
+                    com.google.android.material.R.id.navigation_bar_item_icon_view
+                )
+                val smallLabel = itemView.findViewById<View>(
+                    com.google.android.material.R.id.navigation_bar_item_small_label_view
+                )
+                val largeLabel = itemView.findViewById<View>(
+                    com.google.android.material.R.id.navigation_bar_item_large_label_view
+                )
+
+                itemView.minimumHeight = 0
+                itemView.clipChildren = false
+                itemView.clipToPadding = false
+                itemView.setPadding(0, 0, 0, 0)
+                icon?.translationY = 4.dp()
+                smallLabel?.translationY = (-3).dp()
+                largeLabel?.translationY = (-3).dp()
+            }
+        }
+    }
+
+    private fun Int.dp(): Float = this * resources.displayMetrics.density
 }
