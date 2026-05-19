@@ -1,6 +1,7 @@
 package com.citu.ukayearn.data
 
 import com.citu.ukayearn.data.models.Product
+import com.citu.ukayearn.data.models.CartItem
 import com.citu.ukayearn.data.models.User
 
 object Database {
@@ -17,4 +18,9 @@ object Database {
         Product(3, "Retro Nike Windbreaker", "90s colorblock design. Mint condition.", 950.0, 3100.0, "UkayBoss"),
         Product(4, "Graphic Band Tee (Nirvana)", "Washed black, cracked print for the authentic vintage look.", 450.0, 1500.0, "ThriftKada")
     )
+
+    val cartItems = products.take(2).map { CartItem(it) }.toMutableList()
+
+    const val buyerProtectionFee = 40.0
+    const val deliveryFee = 80.0
 }

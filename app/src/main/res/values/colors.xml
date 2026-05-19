@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_maroon">#800000</color>
-    <color name="accent_gold">#D4AF37</color>
-    <color name="secondary_blue">#1E3A8A</color>
-    <color name="background_light">#F8F9FA</color>
-    <color name="nav_bg">#F2F2F2</color>
+    <color name="earth_cedar">#6D4700</color>
+    <color name="earth_ochre">#695200</color>
+    <color name="earth_olive">#4A4200</color>
+    <color name="earth_forest">#363C12</color>
+    <color name="earth_leaf">#49601E</color>
+
+    <color name="primary_maroon">#363C12</color>
+    <color name="accent_gold">#695200</color>
+    <color name="secondary_blue">#49601E</color>
+    <color name="background_light">#F7F4E8</color>
+    <color name="surface_light">#FFFDF5</color>
+    <color name="surface_tint">#EEE9D5</color>
+    <color name="banner_bg">#E7DEBC</color>
+    <color name="category_bg">#DCD5B8</color>
+    <color name="border_muted">#C9C2A4</color>
+    <color name="text_muted">#686C55</color>
+    <color name="error">#B3261E</color>
+    <color name="nav_bg">#FFFDF5</color>
     <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
+    <color name="black">#1E2110</color>
     <color name="transparent">#00000000</color>
 </resources>

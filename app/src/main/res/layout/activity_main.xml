@@ -36,8 +36,8 @@
             android:layout_height="60dp"
             android:background="@color/transparent"
             app:elevation="0dp"
-            app:itemIconTint="@color/primary_maroon"
-            app:itemTextColor="@color/primary_maroon"
+            app:itemIconTint="@color/bottom_nav_item"
+            app:itemTextColor="@color/bottom_nav_item"
             app:labelVisibilityMode="labeled"
             app:menu="@menu/bottom_nav_menu" />
     </FrameLayout>

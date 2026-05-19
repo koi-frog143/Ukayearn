@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.Navigation // Added this
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.models.Product
@@ -21,15 +21,14 @@ class ProductAdapter(private val productList: List<Product>) :
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
-        holder.tvName.text = product.name
-        holder.tvPrice.text = "₱${product.price}"
+        val context = holder.itemView.context
 
-        // Fixed navigation call using the static Navigation class
+        holder.tvName.text = product.name
+        holder.tvPrice.text = context.getString(R.string.price_format, product.price)
+
         holder.itemView.setOnClickListener {
             val bundle = Bundle()
-            bundle.putInt("productId", product.id)
-
-            // Using Navigation.findNavController(view) is the safest way in an Adapter
+            bundle.putInt(ProductDetailsFragment.ARG_PRODUCT_ID, product.id)
             Navigation.findNavController(it).navigate(R.id.action_home_to_details, bundle)
         }
     }
