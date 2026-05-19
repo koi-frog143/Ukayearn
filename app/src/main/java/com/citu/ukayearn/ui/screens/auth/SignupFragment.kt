@@ -80,6 +80,7 @@ class SignupFragment : Fragment() {
                 else -> {
                     // Add new user to database
                     Database.users.add(User(username, password))
+                    Database.currentUsername = username
                     tvError.visibility = View.GONE
                     Toast.makeText(context, getString(R.string.signup_success), Toast.LENGTH_SHORT).show()
                     // Navigate back to login

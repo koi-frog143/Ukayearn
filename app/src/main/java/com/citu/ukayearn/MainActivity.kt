@@ -26,7 +26,11 @@ class MainActivity : AppCompatActivity() {
 
         // Magic trick: Hide the nav bar if we are on splash, login, or signup!
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.nav_splash || destination.id == R.id.nav_login || destination.id == R.id.nav_signup) {
+            if (destination.id == R.id.nav_splash ||
+                destination.id == R.id.nav_login ||
+                destination.id == R.id.nav_signup ||
+                destination.id == R.id.nav_checkout
+            ) {
                 bottomNavContainer.visibility = View.GONE
             } else {
                 bottomNavContainer.visibility = View.VISIBLE
