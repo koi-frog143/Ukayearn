@@ -33,13 +33,39 @@
                     android:layout_weight="1"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/my_cart"
-                        android:textColor="@color/black"
-                        android:textSize="24sp"
-                        android:textStyle="bold" />
+                        android:layout_height="40dp"
+                        android:background="@drawable/profile_settings_bg"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="4dp">
+
+                        <TextView
+                            android:id="@+id/tabMyCart"
+                            android:layout_width="92dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/premium_badge_bg"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:text="@string/my_cart"
+                            android:textColor="@color/accent_gold"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tabToReceive"
+                            android:layout_width="104dp"
+                            android:layout_height="32dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:gravity="center"
+                            android:text="@string/to_receive"
+                            android:textColor="@color/text_muted"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvLockedFinds"
@@ -65,6 +91,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/cartNoticeRow"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -103,7 +130,41 @@
                 tools:itemCount="2"
                 tools:listitem="@layout/item_cart_product" />
 
+            <TextView
+                android:id="@+id/tvToReceiveHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/cart_notice_bg"
+                android:fontFamily="@font/poppins_semibold"
+                android:padding="14dp"
+                android:text="@string/to_receive_section"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvToReceiveItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="1"
+                tools:listitem="@layout/item_checkout_product" />
+
+            <TextView
+                android:id="@+id/tvToReceiveEmpty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:padding="12dp"
+                android:text="@string/to_receive_empty"
+                android:textColor="@color/text_muted"
+                android:textSize="13sp" />
+
             <LinearLayout
+                android:id="@+id/voucherRow"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginTop="4dp"
@@ -130,6 +191,7 @@
             </LinearLayout>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/orderSummaryCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

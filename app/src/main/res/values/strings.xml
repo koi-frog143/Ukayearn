@@ -16,8 +16,10 @@
     <string name="signup_subtitle">Save thrift finds, lock items in your cart, and hangyo with sellers.</string>
     <string name="account_details">Account details</string>
     <string name="buyer_perk">Built for Cebu ukay finds, quick cart locks, and friendly offers.</string>
-    <string name="already_have_account">Don\'t have an account yet? Sign up</string>
-    <string name="login_instead">Already have an account? Log in</string>
+    <string name="buyer">Buyer</string>
+    <string name="already_have_account">Don\'t have an account yet? Sign up now!</string>
+    <string name="login_instead">Already have an account? Log in!</string>
+    <string name="name_hint">Name</string>
     <string name="invalid_credentials">Invalid credentials</string>
     <string name="all_fields_required">All fields are required</string>
     <string name="password_mismatch">Passwords do not match</string>
@@ -29,6 +31,25 @@
     <string name="location_label">Location</string>
     <string name="location_value">Cebu City, PH</string>
     <string name="search_hint">Search vintage finds...</string>
+    <string name="clear_search">Clear search</string>
+    <string name="clear_price_filter">Clear price filter</string>
+    <string name="search_all">All</string>
+    <string name="search_items">Items</string>
+    <string name="search_shops">Shops</string>
+    <string name="filter_categories">Categories</string>
+    <string name="filter_categories_count">%1$d categories</string>
+    <string name="shops_dashboard">Shops</string>
+    <string name="shops_dashboard_subtitle">Browse sellers and their latest finds.</string>
+    <string name="sort_price_all">All prices</string>
+    <string name="sort_price_under_500">Under PHP 500</string>
+    <string name="sort_price_500_999">PHP 500-999</string>
+    <string name="sort_price_1000_1999">PHP 1,000-1,999</string>
+    <string name="sort_price_2000_plus">PHP 2,000+</string>
+    <string name="search_results">Search Results</string>
+    <string name="search_result_shops">Shops/sellers</string>
+    <string name="search_result_items">Items</string>
+    <string name="search_empty_shops">No matching shops yet.</string>
+    <string name="search_empty_items">No matching items yet.</string>
     <string name="new_collection">New Collection</string>
     <string name="first_transaction_discount">Discount 50% for\nthe first transaction</string>
     <string name="shop_now">Shop Now</string>
@@ -66,7 +87,7 @@
     <string name="profile_email">admin@ukayearn.com</string>
     <string name="premium_member">Gold member</string>
     <string name="to_ship">To Ship</string>
-    <string name="to_receive">To Receive</string>
+    <string name="to_receive_section">To Receive</string>
     <string name="completed_orders">Completed</string>
     <string name="profile_orders_hint">Order status</string>
     <string name="profile_listings">Listings</string>
@@ -74,8 +95,15 @@
     <string name="profile_approved">Approved</string>
     <string name="account_settings">Account settings</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="save_profile">Save Profile</string>
+    <string name="profile_updated">Profile updated.</string>
+    <string name="profile_username_taken">Username is already taken.</string>
+    <string name="profile_photo">Profile photo</string>
+    <string name="choose_profile_photo">Choose profile photo</string>
     <string name="payment_methods">Payment Methods</string>
     <string name="delivery_addresses">Delivery Addresses</string>
+    <string name="edit_delivery_address">Edit Delivery Address</string>
+    <string name="delivery_address_saved">Delivery address saved.</string>
     <string name="logout">Logout</string>
     <string name="profile_action_coming_soon">%1$s coming soon.</string>
 
@@ -117,6 +145,10 @@
     <string name="quantity_default">1</string>
     <string name="select_all">All</string>
     <string name="delete_item">Delete item</string>
+    <string name="delete_item_title">Remove item?</string>
+    <string name="delete_item_message">This item will be removed from your cart.</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
     <string name="selected_count_format">%1$d selected</string>
     <string name="cart_selected_count_format">%1$d of %2$d selected</string>
     <string name="cart_line_total_format">Total: %1$s</string>
@@ -135,6 +167,15 @@
     <string name="place_order">Place Order</string>
     <string name="delivery_details_required">Please complete your delivery details.</string>
     <string name="order_placed_cod">Order placed with Cash On Delivery.</string>
+    <string name="save_checkout_address_title">Save delivery address?</string>
+    <string name="save_checkout_address_message">Use this delivery information as your default address for next orders?</string>
+    <string name="save_address">Save address</string>
+    <string name="not_now">Not now</string>
+    <string name="to_receive">To Receive</string>
+    <string name="to_receive_empty">Placed orders will appear here.</string>
+    <string name="received">Received</string>
+    <string name="item_received_prompt">Hi! I received %1$s properly. Thank you!</string>
+    <string name="item_marked_received">Marked as received.</string>
 
     <string name="haggle_title">Hangyo Counter</string>
     <string name="haggle_subtitle">Choose a cart item, send your best offer, and wait for the shop response in Messages.</string>
@@ -226,4 +267,12 @@
     <string name="report_submitted">Report submitted for %1$s.</string>
     <string name="photo_picker_coming_soon">Photo picker coming soon.</string>
     <string name="message_sent">Message sent to %1$s.</string>
+    <string name="send_picture">Send picture</string>
+    <string name="use_camera">Use camera</string>
+    <string name="open_gallery">Open gallery</string>
+    <string name="picture_sent">Picture sent to %1$s.</string>
+    <string name="camera_unavailable">Camera could not capture a photo.</string>
+    <string name="delete_message_title">Delete message?</string>
+    <string name="delete_message_message">This message will be removed from the conversation.</string>
+    <string name="message_deleted">Message deleted.</string>
 </resources>

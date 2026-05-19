@@ -27,6 +27,7 @@ class CartFragment : Fragment() {
     private var clockRunnable: Runnable? = null
     private lateinit var cartAdapter: CartItemAdapter
     private lateinit var cartItems: MutableList<CartUiItem>
+    private lateinit var rootView: View
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +35,7 @@ class CartFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_cart, container, false)
+        rootView = view
         cartItems = if (Database.isCurrentUserSeller()) {
             mutableListOf()
         } else {
@@ -57,6 +59,18 @@ class CartFragment : Fragment() {
         view.findViewById<RecyclerView>(R.id.rvCartItems).apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = cartAdapter
+        }
+
+        view.findViewById<RecyclerView>(R.id.rvToReceiveItems).layoutManager =
+            LinearLayoutManager(requireContext())
+        bindToReceiveItems()
+        bindCartTabs(showToReceive = false)
+
+        view.findViewById<TextView>(R.id.tabMyCart).setOnClickListener {
+            bindCartTabs(showToReceive = false)
+        }
+        view.findViewById<TextView>(R.id.tabToReceive).setOnClickListener {
+            bindCartTabs(showToReceive = true)
         }
 
         view.findViewById<CheckBox>(R.id.cbSelectAll).setOnCheckedChangeListener { _, isChecked ->
@@ -112,6 +126,56 @@ class CartFragment : Fragment() {
             getString(R.string.price_format, delivery)
         view.findViewById<TextView>(R.id.tvTotal).text = getString(R.string.price_format, total)
         view.findViewById<Button>(R.id.btnCheckout).isEnabled = hasSelectedItems
+    }
+
+    private fun bindToReceiveItems() {
+        val toReceive = Database.toReceiveItems.map {
+            CheckoutItem(product = it.product, quantity = it.quantity)
+        }
+        rootView.findViewById<RecyclerView>(R.id.rvToReceiveItems).adapter =
+            CheckoutItemAdapter(
+                items = toReceive,
+                showReceivedAction = true,
+                onReceivedClicked = { item ->
+                    val prompt = getString(R.string.item_received_prompt, item.product.name)
+                    Database.markToReceiveItemReceived(item.product.id)
+                    Database.sendReceivedPromptToSeller(item.product.seller, prompt)
+                    Toast.makeText(
+                        requireContext(),
+                        prompt,
+                        Toast.LENGTH_LONG
+                    ).show()
+                    Toast.makeText(requireContext(), R.string.item_marked_received, Toast.LENGTH_SHORT).show()
+                    bindToReceiveItems()
+                }
+            )
+        rootView.findViewById<TextView>(R.id.tvToReceiveEmpty).visibility =
+            if (toReceive.isEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun bindCartTabs(showToReceive: Boolean) {
+        val cartVisibility = if (showToReceive) View.GONE else View.VISIBLE
+        val receiveVisibility = if (showToReceive) View.VISIBLE else View.GONE
+
+        rootView.findViewById<View>(R.id.cartNoticeRow).visibility = cartVisibility
+        rootView.findViewById<View>(R.id.rvCartItems).visibility = cartVisibility
+        rootView.findViewById<View>(R.id.voucherRow).visibility = cartVisibility
+        rootView.findViewById<View>(R.id.orderSummaryCard).visibility = cartVisibility
+        rootView.findViewById<View>(R.id.checkoutBar).visibility = cartVisibility
+
+        rootView.findViewById<View>(R.id.tvToReceiveHeader).visibility = receiveVisibility
+        rootView.findViewById<View>(R.id.rvToReceiveItems).visibility = receiveVisibility
+        rootView.findViewById<View>(R.id.tvToReceiveEmpty).visibility =
+            if (showToReceive && Database.toReceiveItems.isEmpty()) View.VISIBLE else View.GONE
+
+        rootView.findViewById<TextView>(R.id.tabMyCart).apply {
+            setBackgroundResource(if (showToReceive) android.R.color.transparent else R.drawable.premium_badge_bg)
+            setTextColor(requireContext().getColor(if (showToReceive) R.color.text_muted else R.color.accent_gold))
+        }
+        rootView.findViewById<TextView>(R.id.tabToReceive).apply {
+            setBackgroundResource(if (showToReceive) R.drawable.premium_badge_bg else android.R.color.transparent)
+            setTextColor(requireContext().getColor(if (showToReceive) R.color.accent_gold else R.color.text_muted))
+        }
     }
 
     private fun startClock(clockView: TextView) {

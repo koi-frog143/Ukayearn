@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.Database
+import com.citu.ukayearn.data.models.CartItem
 import com.citu.ukayearn.ui.util.AssetImageLoader
 
 class ProductDetailsFragment : Fragment() {
@@ -34,7 +35,16 @@ class ProductDetailsFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.btnAddToCart).setOnClickListener {
-            Toast.makeText(context, R.string.item_locked_message, Toast.LENGTH_LONG).show()
+            product?.let { currentProduct ->
+                val existingItem = Database.cartItems.find { it.product.id == currentProduct.id }
+                if (existingItem != null) {
+                    existingItem.quantity++
+                    Toast.makeText(context, "${currentProduct.name} quantity increased to ${existingItem.quantity}", Toast.LENGTH_SHORT).show()
+                } else {
+                    Database.cartItems.add(CartItem(currentProduct, 1))
+                    Toast.makeText(context, "${currentProduct.name} added to cart", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         return view

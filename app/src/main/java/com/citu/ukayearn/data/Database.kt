@@ -9,11 +9,11 @@ import com.citu.ukayearn.data.models.User
 object Database {
     // Mutable so you can demonstrate a live sign-up during your capstone defense!
     val users = mutableListOf(
-        User("admin", "admin123"),
-        User("buyer", "password"),
-        User("thriftkada", "seller123"),
-        User("cebufinds", "seller123"),
-        User("ukayboss", "seller123")
+        User("admin", "Admin", "admin123"),
+        User("buyer", "Buyer", "password"),
+        User("thriftkada", "Thrift Kada", "seller123"),
+        User("cebufinds", "Cebu Finds", "seller123"),
+        User("ukayboss", "Ukay Boss", "seller123")
     )
 
     var currentUsername: String = ""
@@ -23,7 +23,10 @@ object Database {
         Category("all", "All Finds", ""),
         Category("tops", "Tops", ""),
         Category("bottoms", "Bottoms", ""),
-        Category("outerwear", "Outerwear", "")
+        Category("outerwear", "Outerwear", ""),
+        Category("children", "Children", ""),
+        Category("teen", "Teen", ""),
+        Category("adult", "Adult", "")
     )
 
     val stores = listOf(
@@ -63,15 +66,25 @@ object Database {
     )
 
     val products = listOf(
-        Product(1, "Vintage Carhartt Detroit Jacket", "Faded moss green, perfect streetwear piece. 1 of 1.", 1200.0, 4500.0, "ThriftKada", "Outerwear", "images/items/jacket 1.jpg", "2026-05-19"),
-        Product(2, "Y2K Baggy Denim Jeans", "Wide leg, distressed hem. Size 32 waist.", 850.0, 2200.0, "CebuFinds", "Bottoms", "images/items/baggy jeans.jfif", "2026-05-17"),
-        Product(3, "Retro Nike Windbreaker", "90s colorblock design. Mint condition.", 950.0, 3100.0, "UkayBoss", "Outerwear", "images/items/jacket 2.jfif", "2026-05-20"),
-        Product(4, "Graphic Band Tee (Nirvana)", "Washed black, cracked print for the authentic vintage look.", 450.0, 1500.0, "ThriftKada", "Tops", "images/items/t-shirt.jpg", "2026-05-16"),
-        Product(5, "Washed Oversized Tee", "Soft cotton oversized tee for everyday vintage styling.", 380.0, 1200.0, "CebuFinds", "Tops", "images/items/shirt-clothes.jpg", "2026-05-18"),
-        Product(6, "Curated Tee Rack Bundle", "Handpicked graphic tee bundle from a fresh thrift drop.", 690.0, 1800.0, "UkayBoss", "Tops", "images/items/t-shirts-shop.jpg", "2026-05-15"),
-        Product(7, "Nike Statement Woven Jacket", "Lightweight woven jacket with a clean sporty thrift finish.", 980.0, 2900.0, "ThriftKada", "Outerwear", "images/items/AS+M+NSW+HBR+JKT+WVN+STMT.avif", "2026-05-14"),
-        Product(8, "Cream Zip Track Jacket", "Neutral zip jacket, easy to layer with denim or tees.", 720.0, 1900.0, "CebuFinds", "Outerwear", "images/items/jacket 3.jfif", "2026-05-13"),
-        Product(9, "Imported Polo Shirt", "Soft collared top with a tidy smart-casual fit.", 520.0, 1400.0, "UkayBoss", "Tops", "images/items/phgoods_62_482868_3x4.avif", "2026-05-12")
+        Product(1, "Vintage Carhartt Detroit Jacket", "Faded moss green, perfect streetwear piece. 1 of 1.", 1200.0, 4500.0, "ThriftKada", "Outerwear", "images/items/jacket 1.jpg", "2026-05-19", listOf("Outerwear", "Adult")),
+        Product(2, "Y2K Baggy Denim Jeans", "Wide leg, distressed hem. Size 32 waist.", 850.0, 2200.0, "CebuFinds", "Bottoms", "images/items/baggy jeans.jfif", "2026-05-17", listOf("Bottoms", "Teen", "Adult")),
+        Product(3, "Retro Nike Windbreaker", "90s colorblock design. Mint condition.", 950.0, 3100.0, "UkayBoss", "Outerwear", "images/items/jacket 2.jfif", "2026-05-20", listOf("Outerwear", "Teen")),
+        Product(4, "Graphic Band Tee (Nirvana)", "Washed black, cracked print for the authentic vintage look.", 450.0, 1500.0, "ThriftKada", "Tops", "images/items/t-shirt.jpg", "2026-05-16", listOf("Tops", "Teen", "Adult")),
+        Product(5, "Washed Oversized Tee", "Soft cotton oversized tee for everyday vintage styling.", 380.0, 1200.0, "CebuFinds", "Tops", "images/items/shirt-clothes.jpg", "2026-05-18", listOf("Tops", "Adult")),
+        Product(6, "Curated Tee Rack Bundle", "Handpicked graphic tee bundle from a fresh thrift drop.", 690.0, 1800.0, "UkayBoss", "Tops", "images/items/t-shirts-shop.jpg", "2026-05-15", listOf("Tops", "Teen")),
+        Product(7, "Nike Statement Woven Jacket", "Lightweight woven jacket with a clean sporty thrift finish.", 980.0, 2900.0, "ThriftKada", "Outerwear", "images/items/AS+M+NSW+HBR+JKT+WVN+STMT.avif", "2026-05-14", listOf("Outerwear", "Adult")),
+        Product(8, "Cream Zip Track Jacket", "Neutral zip jacket, easy to layer with denim or tees.", 720.0, 1900.0, "CebuFinds", "Outerwear", "images/items/jacket 3.jfif", "2026-05-13", listOf("Outerwear", "Teen", "Adult")),
+        Product(9, "Imported Polo Shirt", "Soft collared top with a tidy smart-casual fit.", 520.0, 1400.0, "UkayBoss", "Tops", "images/items/phgoods_62_482868_3x4.avif", "2026-05-12", listOf("Tops", "Adult")),
+        Product(10, "Kids Floral Play Dress", "Lightweight thrifted dress with a cheerful print for weekend wear.", 260.0, 780.0, "CebuFinds", "Tops", "images/items/cloth 1.webp", "2026-05-11", listOf("Tops", "Children")),
+        Product(11, "Teen Denim Overshirt", "Relaxed denim layer with soft fading and easy streetwear styling.", 640.0, 1600.0, "ThriftKada", "Outerwear", "images/items/cloth 2.jpg", "2026-05-10", listOf("Outerwear", "Teen")),
+        Product(12, "Adult Linen Button Top", "Breathable neutral top for smart casual thrift outfits.", 540.0, 1400.0, "UkayBoss", "Tops", "images/items/cloth 3.jpg", "2026-05-09", listOf("Tops", "Adult")),
+        Product(13, "Children Soft Joggers", "Comfy everyday joggers with a clean elastic waist.", 300.0, 900.0, "ThriftKada", "Bottoms", "images/items/cloth 4.jfif", "2026-05-08", listOf("Bottoms", "Children")),
+        Product(14, "Teen Plaid Flannel", "Cozy plaid layer, perfect over tees and denim.", 470.0, 1300.0, "CebuFinds", "Outerwear", "images/items/cloth 5.webp", "2026-05-07", listOf("Outerwear", "Teen")),
+        Product(15, "Adult Straight Cut Slacks", "Office-ready thrift slacks with a relaxed straight fit.", 620.0, 1700.0, "UkayBoss", "Bottoms", "images/items/cloth 6.jfif", "2026-05-06", listOf("Bottoms", "Adult")),
+        Product(16, "Children Graphic Tee", "Bright cotton tee with playful print and soft hand feel.", 220.0, 650.0, "CebuFinds", "Tops", "images/items/cloth 7.jfif", "2026-05-05", listOf("Tops", "Children")),
+        Product(17, "Teen Cargo Pants", "Utility pockets, relaxed silhouette, and sturdy fabric.", 760.0, 1900.0, "UkayBoss", "Bottoms", "images/items/cloth 8.jfif", "2026-05-04", listOf("Bottoms", "Teen")),
+        Product(18, "Adult Knit Cardigan", "Soft neutral cardigan for layering over thrift basics.", 820.0, 2100.0, "ThriftKada", "Outerwear", "images/items/cloth 9.jfif", "2026-05-03", listOf("Outerwear", "Adult")),
+        Product(19, "Children Denim Jacket", "Mini denim jacket with gentle fading and sturdy seams.", 580.0, 1500.0, "UkayBoss", "Outerwear", "images/items/cloth 10.jpg", "2026-05-02", listOf("Outerwear", "Children"))
     )
 
     val newCollectionPreviewImage = "images/items/new collection.webp"
@@ -82,7 +95,7 @@ object Database {
 
     val cartItems = products.take(2).map { CartItem(it) }.toMutableList()
 
-    val sellerAccounts = mapOf(
+    val sellerAccounts = mutableMapOf(
         "ThriftKada" to "thriftkada",
         "CebuFinds" to "cebufinds",
         "UkayBoss" to "ukayboss"
@@ -90,6 +103,44 @@ object Database {
 
     val haggleOffers = mutableListOf<HaggleOffer>()
     val approvedHaggleVouchers = mutableMapOf<Int, Double>()
+    val toReceiveItems = mutableListOf<CartItem>()
+    private val receivedPromptsBySeller = mutableMapOf<String, String>()
+    val chatMessages = mutableListOf(
+        ChatMessage(
+            id = 1,
+            seller = "ThriftKada",
+            senderUsername = "thriftkada",
+            body = "Hi Admin, this piece is still available. I can include it in today's pickup batch."
+        ),
+        ChatMessage(
+            id = 2,
+            seller = "ThriftKada",
+            senderUsername = "admin",
+            body = "Great, please reserve it while I check out."
+        ),
+        ChatMessage(
+            id = 3,
+            seller = "Retro Lane",
+            senderUsername = "retrolane",
+            body = "Your payment method is ready for checkout."
+        ),
+        ChatMessage(
+            id = 4,
+            seller = "CebuFinds",
+            senderUsername = "cebufinds",
+            body = "I accepted your offer for the denim jacket."
+        ),
+        ChatMessage(
+            id = 5,
+            seller = "UkayBoss",
+            senderUsername = "ukayboss",
+            body = "Ask about the windbreaker before checkout."
+        )
+    )
+    private val unreadConversationsByUser = mutableMapOf(
+        "admin" to mutableSetOf("ThriftKada"),
+        "buyer" to mutableSetOf("ThriftKada")
+    )
 
     const val buyerProtectionFee = 40.0
     const val deliveryFee = 80.0
@@ -111,7 +162,7 @@ object Database {
     }
 
     fun currentDisplayName(): String {
-        return currentSellerName() ?: displayNameFor(currentUsername)
+        return currentUser()?.name?.takeIf { it.isNotBlank() } ?: currentSellerName() ?: displayNameFor(currentUsername)
     }
 
     fun displayNameFor(username: String): String {
@@ -130,8 +181,102 @@ object Database {
         }
     }
 
+    fun currentUser(): User? {
+        return users.firstOrNull { it.username == currentUsername }
+    }
+
+    fun currentProfileImageUri(): String? {
+        return currentUser()?.profileImageUri
+    }
+
+    fun updateCurrentProfile(
+        name: String,
+        username: String,
+        password: String,
+        profileImageUri: String?
+    ): Boolean {
+        val user = currentUser() ?: return false
+        val oldUsername = user.username
+        if (username != oldUsername && users.any { it.username == username }) return false
+
+        user.name = name
+        user.username = username
+        user.pass = password
+        user.profileImageUri = profileImageUri
+        currentUsername = username
+
+        sellerAccounts.entries.firstOrNull { it.value == oldUsername }?.setValue(username)
+        unreadConversationsByUser[username] = unreadConversationsByUser.remove(oldUsername) ?: mutableSetOf()
+        return true
+    }
+
+    fun currentDeliveryDetails(): DeliveryDetails? {
+        val user = currentUser() ?: return null
+        return DeliveryDetails(
+            address = user.deliveryAddress,
+            phone = user.phoneNumber,
+            landmark = user.landmark
+        ).takeIf { it.isComplete() }
+    }
+
+    fun saveCurrentDeliveryDetails(address: String, phone: String, landmark: String) {
+        currentUser()?.apply {
+            deliveryAddress = address
+            phoneNumber = phone
+            this.landmark = landmark
+        }
+    }
+
+    fun placeOrder(items: List<CartItem>) {
+        items.forEach { orderedItem ->
+            toReceiveItems.add(CartItem(orderedItem.product, orderedItem.quantity))
+            cartItems.firstOrNull { it.product.id == orderedItem.product.id }?.let { cartItem ->
+                cartItem.quantity -= orderedItem.quantity
+                if (cartItem.quantity <= 0) {
+                    cartItems.remove(cartItem)
+                }
+            }
+        }
+    }
+
+    fun markToReceiveItemReceived(productId: Int) {
+        toReceiveItems.removeAll { it.product.id == productId }
+    }
+
+    fun sendReceivedPromptToSeller(seller: String, prompt: String) {
+        receivedPromptsBySeller[seller] = prompt
+        addTextChatMessage(seller, currentUsername.ifBlank { "buyer" }, prompt)
+        markSellerConversationUnread(seller)
+    }
+
+    fun latestReceivedPromptForSeller(seller: String): String? {
+        return receivedPromptsBySeller[seller]
+    }
+
     fun currentProfileBadge(): String {
         return if (isCurrentUserSeller()) "Seller account" else "Gold member"
+    }
+
+    fun unreadMessageCountForCurrentUser(): Int {
+        return unreadConversationsForCurrentUser().size
+    }
+
+    fun isConversationUnreadForCurrentUser(seller: String): Boolean {
+        return unreadConversationsForCurrentUser().contains(seller)
+    }
+
+    fun markConversationReadForCurrentUser(seller: String) {
+        unreadConversationsForCurrentUser().remove(seller)
+    }
+
+    fun markConversationUnreadForUser(username: String, seller: String) {
+        unreadConversationsForUser(username).add(seller)
+    }
+
+    fun markSellerConversationUnread(seller: String) {
+        sellerAccounts[seller]?.let { sellerUsername ->
+            markConversationUnreadForUser(sellerUsername, seller)
+        }
     }
 
     fun haggleOffersForCurrentSeller(): List<HaggleOffer> {
@@ -147,6 +292,50 @@ object Database {
         return haggleOffers.lastOrNull { it.product.id == productId }
     }
 
+    fun conversationMessagesForSeller(seller: String): List<ChatMessage> {
+        return chatMessages.filter { it.seller == seller }.sortedBy { it.id }
+    }
+
+    fun latestChatMessageForSeller(seller: String): ChatMessage? {
+        return conversationMessagesForSeller(seller).lastOrNull()
+    }
+
+    fun addTextChatMessage(seller: String, senderUsername: String, body: String): ChatMessage {
+        return addChatMessage(seller, senderUsername, body, null, ChatMessageType.TEXT)
+    }
+
+    fun addImageChatMessage(seller: String, senderUsername: String, imageUri: String): ChatMessage {
+        return addChatMessage(seller, senderUsername, null, imageUri, ChatMessageType.IMAGE)
+    }
+
+    private fun addChatMessage(
+        seller: String,
+        senderUsername: String,
+        body: String?,
+        imageUri: String?,
+        type: ChatMessageType
+    ): ChatMessage {
+        val message = ChatMessage(
+            id = (chatMessages.maxOfOrNull { it.id } ?: 0) + 1,
+            seller = seller,
+            senderUsername = senderUsername,
+            body = body,
+            imageUri = imageUri,
+            type = type
+        )
+        chatMessages.add(message)
+        return message
+    }
+
+    private fun unreadConversationsForCurrentUser(): MutableSet<String> {
+        val username = currentUsername.ifBlank { "admin" }
+        return unreadConversationsForUser(username)
+    }
+
+    private fun unreadConversationsForUser(username: String): MutableSet<String> {
+        return unreadConversationsByUser.getOrPut(username) { mutableSetOf() }
+    }
+
     data class HaggleOffer(
         val id: Int,
         val product: Product,
@@ -160,5 +349,29 @@ object Database {
         PENDING,
         APPROVED,
         DECLINED
+    }
+
+    data class ChatMessage(
+        val id: Int,
+        val seller: String,
+        val senderUsername: String,
+        val body: String? = null,
+        val imageUri: String? = null,
+        val type: ChatMessageType = ChatMessageType.TEXT
+    )
+
+    enum class ChatMessageType {
+        TEXT,
+        IMAGE
+    }
+
+    data class DeliveryDetails(
+        val address: String,
+        val phone: String,
+        val landmark: String
+    ) {
+        fun isComplete(): Boolean {
+            return address.isNotBlank() && phone.isNotBlank() && landmark.isNotBlank()
+        }
     }
 }

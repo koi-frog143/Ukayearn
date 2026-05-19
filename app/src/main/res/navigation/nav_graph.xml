@@ -25,20 +25,6 @@
             app:destination="@id/nav_home"
             app:popUpTo="@id/nav_login"
             app:popUpToInclusive="true" />
-        <action
-            android:id="@+id/action_login_to_signup"
-            app:destination="@id/nav_signup" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/nav_signup"
-        android:name="com.citu.ukayearn.ui.screens.auth.SignupFragment"
-        tools:layout="@layout/fragment_signup">
-        <action
-            android:id="@+id/action_signup_to_login"
-            app:destination="@id/nav_login"
-            app:popUpTo="@id/nav_signup"
-            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
@@ -69,6 +55,12 @@
             android:name="storeId"
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_shop_dashboard"
+        android:name="com.citu.ukayearn.ui.screens.home.ShopDashboardFragment"
+        android:label="@string/shops_dashboard"
+        tools:layout="@layout/fragment_shop_dashboard" />
 
     <fragment
         android:id="@+id/nav_cart"

@@ -10,5 +10,6 @@ data class Product(
     val category: String,
     val imageUrl: String,
     val dateAdded: String,
+    val categories: List<String> = listOf(category),
     val isLocked: Boolean = false // For Feature 6: The 15-minute cart lock
 )

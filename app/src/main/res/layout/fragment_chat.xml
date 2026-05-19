@@ -40,6 +40,20 @@
                 android:textColor="@color/text_muted"
                 android:textSize="13sp" />
 
+            <EditText
+                android:id="@+id/etChatSearch"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/search_bg"
+                android:hint="@string/chat_search_hint"
+                android:inputType="text"
+                android:paddingHorizontal="16dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/text_muted"
+                android:textSize="14sp" />
+
             <LinearLayout
                 android:id="@+id/rowThriftKada"
                 style="@style/ChatThreadRow"
@@ -50,10 +64,21 @@
                     android:layout_height="48dp">
 
                     <TextView
+                        android:id="@+id/tvAvatarFallbackThriftKada"
                         style="@style/ChatAvatar"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:text="T" />
+
+                    <ImageView
+                        android:id="@+id/ivAvatarThriftKada"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/chat_avatar_bg"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/thriftkada"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
 
                     <View
                         android:layout_width="10dp"
@@ -88,6 +113,7 @@
                         android:text="@string/chat_time_now" />
 
                     <TextView
+                        android:id="@+id/tvUnreadThriftKada"
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:layout_marginTop="8dp"
@@ -104,11 +130,27 @@
                 android:id="@+id/rowRetroLane"
                 style="@style/ChatThreadRow">
 
-                <TextView
-                    style="@style/ChatAvatar"
+                <FrameLayout
                     android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:text="R" />
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/tvAvatarFallbackRetroLane"
+                        style="@style/ChatAvatar"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:text="R" />
+
+                    <ImageView
+                        android:id="@+id/ivAvatarRetroLane"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/chat_avatar_bg"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/retro_lane"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+                </FrameLayout>
 
                 <LinearLayout style="@style/ChatThreadContent">
 
@@ -125,20 +167,56 @@
                         android:text="@string/chat_preview_retro_lane" />
                 </LinearLayout>
 
-                <TextView
-                    style="@style/ChatTime"
-                    android:text="@string/chat_time_minutes" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/ChatTime"
+                        android:text="@string/chat_time_minutes" />
+
+                    <TextView
+                        android:id="@+id/tvUnreadRetroLane"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/chat_unread_count_bg"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/rowCebuFinds"
                 style="@style/ChatThreadRow">
 
-                <TextView
-                    style="@style/ChatAvatar"
+                <FrameLayout
                     android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:text="C" />
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/tvAvatarFallbackCebuFinds"
+                        style="@style/ChatAvatar"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:text="C" />
+
+                    <ImageView
+                        android:id="@+id/ivAvatarCebuFinds"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/chat_avatar_bg"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/cebu_finds"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+                </FrameLayout>
 
                 <LinearLayout style="@style/ChatThreadContent">
 
@@ -155,20 +233,56 @@
                         android:text="@string/chat_preview_cebu_finds" />
                 </LinearLayout>
 
-                <TextView
-                    style="@style/ChatTime"
-                    android:text="@string/chat_time_hour" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/ChatTime"
+                        android:text="@string/chat_time_hour" />
+
+                    <TextView
+                        android:id="@+id/tvUnreadCebuFinds"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/chat_unread_count_bg"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/rowUkayBoss"
                 style="@style/ChatThreadRow">
 
-                <TextView
-                    style="@style/ChatAvatar"
+                <FrameLayout
                     android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:text="U" />
+                    android:layout_height="48dp">
+
+                    <TextView
+                        android:id="@+id/tvAvatarFallbackUkayBoss"
+                        style="@style/ChatAvatar"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:text="U" />
+
+                    <ImageView
+                        android:id="@+id/ivAvatarUkayBoss"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/chat_avatar_bg"
+                        android:clipToOutline="true"
+                        android:contentDescription="@string/ukay_boss"
+                        android:scaleType="centerCrop"
+                        android:visibility="gone" />
+                </FrameLayout>
 
                 <LinearLayout style="@style/ChatThreadContent">
 
@@ -185,9 +299,29 @@
                         android:text="@string/chat_preview_ukay_boss" />
                 </LinearLayout>
 
-                <TextView
-                    style="@style/ChatTime"
-                    android:text="@string/chat_time_hour" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/ChatTime"
+                        android:text="@string/chat_time_hour" />
+
+                    <TextView
+                        android:id="@+id/tvUnreadUkayBoss"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/chat_unread_count_bg"
+                        android:gravity="center"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+                </LinearLayout>
             </LinearLayout>
 
             <TextView
@@ -246,6 +380,16 @@
                     android:layout_width="44dp"
                     android:layout_height="44dp"
                     android:text="S" />
+
+                <ImageView
+                    android:id="@+id/ivActiveAvatar"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:background="@drawable/chat_avatar_bg"
+                    android:clipToOutline="true"
+                    android:contentDescription="@string/active_chat"
+                    android:scaleType="centerCrop"
+                    android:visibility="gone" />
 
                 <View
                     android:layout_width="10dp"
@@ -445,6 +589,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/tvBuyerPresetMessage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/chat_buyer_bubble_bg"
@@ -513,6 +658,17 @@
                     android:text="@string/chat_time_1017"
                     android:textColor="@color/text_muted"
                     android:textSize="11sp" />
+
+                <LinearLayout
+                    android:id="@+id/sentImageMessageRow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="end"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/sentMessageRow"
