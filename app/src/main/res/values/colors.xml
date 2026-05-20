@@ -5,7 +5,8 @@
     <color name="earth_olive">#4A4200</color>
     <color name="earth_forest">#363C12</color>
     <color name="earth_leaf">#49601E</color>
-
+    <color name="primary_dark">#121212</color>
+    <color name="text_primary">#212121</color>
     <color name="primary_maroon">#363C12</color>
     <color name="accent_gold">#695200</color>
     <color name="secondary_blue">#49601E</color>

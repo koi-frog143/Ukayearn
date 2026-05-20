@@ -31,7 +31,7 @@ class CheckoutItemAdapter(
         AssetImageLoader.load(holder.ivImage, item.product.imageUrl)
         holder.tvPrice.text = context.getString(
             R.string.price_format,
-            Database.effectiveCartUnitPrice(item.product) * item.quantity
+            Database.calculateItemTotal(item.product, item.quantity)
         )
         holder.btnReceived.visibility = if (showReceivedAction) View.VISIBLE else View.GONE
         holder.btnReceived.setOnClickListener {
