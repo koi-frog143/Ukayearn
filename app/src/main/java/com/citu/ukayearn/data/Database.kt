@@ -7,7 +7,7 @@ import com.citu.ukayearn.data.models.Store
 import com.citu.ukayearn.data.models.User
 
 object Database {
-    // Mutable so you can demonstrate a live sign-up during your capstone defense!
+
     val users = mutableListOf(
         User("admin", "Admin", "admin123"),
         User("buyer", "Buyer", "password"),
@@ -149,6 +149,7 @@ object Database {
         return approvedHaggleVouchers[product.id] ?: product.price
     }
 
+
     fun calculateItemTotal(product: Product, quantity: Int): Double {
         val haggledPrice = approvedHaggleVouchers[product.id]
         return if (haggledPrice != null && quantity > 0) {
@@ -239,18 +240,27 @@ object Database {
 
     fun placeOrder(items: List<CartItem>) {
         items.forEach { orderedItem ->
-            toReceiveItems.add(CartItem(orderedItem.product, orderedItem.quantity))
-            cartItems.firstOrNull { it.product.id == orderedItem.product.id }?.let { cartItem ->
-                cartItem.quantity -= orderedItem.quantity
-                if (cartItem.quantity <= 0) {
-                    cartItems.remove(cartItem)
-                }
-            }
-        }
-    }
+            // 1. Create a dynamic Order (Status: PENDING_SHIPMENT)
+            orders.add(Order(
+                id = (orders.maxOfOrNull { it.id } ?: 0) + 1,
+                product = orderedItem.product,
+                buyerUsername = currentUsername,
+                sellerName = orderedItem.product.seller,
+                quantity = orderedItem.quantity,
+                status = OrderStatus.PENDING_SHIPMENT
+            ))
 
-    fun markToReceiveItemReceived(productId: Int) {
-        toReceiveItems.removeAll { it.product.id == productId }
+            // 2. Auto-mark as sold out (Issue 4)
+            markProductSoldOut(orderedItem.product.id)
+
+            // 3. Completely unlock the item since it's bought
+            orderedItem.product.isLocked = false
+            orderedItem.product.lockedUntil = null
+            orderedItem.product.lockedBy = null
+
+            // 4. Remove from EVERYONE's cart (since it's a 1-of-1 thrift item)
+            cartItems.removeAll { it.product.id == orderedItem.product.id }
+        }
     }
 
     fun sendReceivedPromptToSeller(seller: String, prompt: String) {
@@ -422,5 +432,44 @@ object Database {
             // Sets stock to 0 to trigger the "Out of Stock" logic we built in Phase 1
             products[index] = product.copy(stock = 0)
         }
+    }
+
+    enum class OrderStatus { PENDING_SHIPMENT, SHIPPED, COMPLETED }
+
+    data class Order(
+        val id: Int,
+        val product: Product,
+        val buyerUsername: String,
+        val sellerName: String,
+        val quantity: Int,
+        var status: OrderStatus = OrderStatus.PENDING_SHIPMENT
+    )
+
+    val orders = mutableListOf<Order>()
+
+    // Auto-unlocks items if the 7-minute checkout timer expires
+    fun unlockExpiredProducts() {
+        val currentTime = System.currentTimeMillis()
+        products.forEach {
+            if (it.isLocked && it.lockedUntil != null && currentTime > it.lockedUntil!!) {
+                it.isLocked = false
+                it.lockedUntil = null
+                it.lockedBy = null
+            }
+        }
+    }
+
+    fun markOrderShipped(orderId: Int) {
+        val order = orders.find { it.id == orderId }
+        if (order != null) {
+            order.status = OrderStatus.SHIPPED
+        } else {
+            // Log an error or handle the invalid orderId case
+            println("Error: Order with ID $orderId not found.")
+        }
+    }
+
+    fun markOrderCompleted(orderId: Int) {
+        orders.find { it.id == orderId }?.status = OrderStatus.COMPLETED
     }
 }

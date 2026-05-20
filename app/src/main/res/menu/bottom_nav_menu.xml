@@ -9,6 +9,10 @@
         android:icon="@drawable/ic_nav_haggle_24"
         android:title="@string/haggle" />
     <item
+        android:id="@+id/nav_listing"
+        android:icon="@drawable/ic_store_24"
+        android:title="My Shop" />
+    <item
         android:id="@+id/nav_chat"
         android:icon="@drawable/ic_nav_chat_24"
         android:title="@string/chat" />

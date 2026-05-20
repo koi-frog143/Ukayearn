@@ -52,6 +52,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
+        Database.unlockExpiredProducts()
         scrollView = view.findViewById(R.id.homeScrollView)
         sectionTitle = view.findViewById(R.id.tvFlashSale)
         searchInput = view.findViewById(R.id.etHomeSearch)

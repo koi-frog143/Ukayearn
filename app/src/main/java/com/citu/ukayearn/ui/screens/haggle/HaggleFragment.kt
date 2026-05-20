@@ -68,32 +68,20 @@ class HaggleFragment : Fragment() {
         setupProductDropdown(view.findViewById(R.id.spCartItems), view.findViewById(R.id.pickerCartItem))
         bindSelectedProduct(selectedProduct)
 
-        view.findViewById<TextView>(R.id.btnOfferFive).setOnClickListener {
-            setDiscountedOffer(OFFER_FIVE_PERCENT)
-        }
-        view.findViewById<TextView>(R.id.btnOfferTen).setOnClickListener {
-            setDiscountedOffer(OFFER_TEN_PERCENT)
-        }
-        view.findViewById<TextView>(R.id.btnOfferFifteen).setOnClickListener {
-            setDiscountedOffer(OFFER_FIFTEEN_PERCENT)
-        }
-
-        view.findViewById<Button>(R.id.btnSendOffer).setOnClickListener {
-            sendHaggleOffer()
-        }
+        view.findViewById<TextView>(R.id.btnOfferFive).setOnClickListener { setDiscountedOffer(OFFER_FIVE_PERCENT) }
+        view.findViewById<TextView>(R.id.btnOfferTen).setOnClickListener { setDiscountedOffer(OFFER_TEN_PERCENT) }
+        view.findViewById<TextView>(R.id.btnOfferFifteen).setOnClickListener { setDiscountedOffer(OFFER_FIFTEEN_PERCENT) }
+        view.findViewById<Button>(R.id.btnSendOffer).setOnClickListener { sendHaggleOffer() }
     }
 
     private fun setupProductDropdown(spinner: Spinner, picker: LinearLayout) {
         spinner.adapter = ProductDropdownAdapter(cartProducts)
-        picker.setOnClickListener {
-            spinner.performClick()
-        }
+        picker.setOnClickListener { spinner.performClick() }
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedProduct = cartProducts[position]
                 bindSelectedProduct(selectedProduct)
             }
-
             override fun onNothingSelected(parent: AdapterView<*>?) = Unit
         }
     }
@@ -125,10 +113,7 @@ class HaggleFragment : Fragment() {
         val offer = Math.round(selectedProduct.price * (1 - discount)).toDouble()
         offerInput.setText(offer.toInt().toString())
         offerSummary.text = getString(R.string.price_format, offer)
-        savings.text = getString(
-            R.string.offer_savings_format,
-            getString(R.string.price_format, selectedProduct.price - offer)
-        )
+        savings.text = getString(R.string.offer_savings_format, getString(R.string.price_format, selectedProduct.price - offer))
     }
 
     private fun sendHaggleOffer() {
@@ -138,23 +123,34 @@ class HaggleFragment : Fragment() {
             return
         }
 
+        // ✅ AUTO-APPROVE VOUCHER IMPLEMENTATION
+        // If the buyer only asks for a 5%, 10%, or 15% discount, it auto-approves!
+        val discountPercentage = 1.0 - (offerPrice / selectedProduct.price)
+        val isApproved = discountPercentage <= 0.16
+
+        val finalStatus = if (isApproved) Database.HaggleStatus.APPROVED else Database.HaggleStatus.PENDING
+
         val offer = Database.HaggleOffer(
             id = Database.haggleOffers.size + 1,
             product = selectedProduct,
             seller = selectedProduct.seller,
             offerPrice = offerPrice,
-            buyerUsername = Database.currentUsername.ifBlank { "buyer" }
+            buyerUsername = Database.currentUsername.ifBlank { "buyer" },
+            status = finalStatus
         )
         Database.haggleOffers.add(offer)
-        Database.addTextChatMessage(
-            seller = selectedProduct.seller,
-            senderUsername = Database.currentUsername.ifBlank { "buyer" },
-            body = "Hangyo sent for ${selectedProduct.name}: ${getString(R.string.price_format, offerPrice)}"
-        )
+
+        if (isApproved) {
+            Database.approvedHaggleVouchers[selectedProduct.id] = offerPrice
+            Database.addTextChatMessage(selectedProduct.seller, selectedProduct.seller, "I accepted your Hangyo of ₱${offerPrice}! A voucher has been applied to your cart.")
+            Toast.makeText(requireContext(), "Offer Approved! Voucher applied to cart.", Toast.LENGTH_LONG).show()
+        } else {
+            Database.addTextChatMessage(selectedProduct.seller, Database.currentUsername.ifBlank { "buyer" }, "Hangyo sent for ${selectedProduct.name}: ₱${offerPrice}")
+            Toast.makeText(requireContext(), R.string.haggle_sent_to_messages, Toast.LENGTH_SHORT).show()
+        }
+
         Database.markSellerConversationUnread(selectedProduct.seller)
-        offerSummary.text = getString(R.string.price_format, offerPrice)
-        status.text = getString(R.string.haggle_sent_waiting)
-        Toast.makeText(requireContext(), R.string.haggle_sent_to_messages, Toast.LENGTH_SHORT).show()
+        bindSelectedProduct(selectedProduct) // Refresh UI
     }
 
     companion object {
@@ -167,18 +163,12 @@ class HaggleFragment : Fragment() {
         products: List<Product>
     ) : ArrayAdapter<Product>(requireContext(), R.layout.item_haggle_dropdown, products) {
 
-        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            return createProductRow(position, convertView, parent)
-        }
-
-        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-            return createProductRow(position, convertView, parent)
-        }
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View = createProductRow(position, convertView, parent)
+        override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View = createProductRow(position, convertView, parent)
 
         private fun createProductRow(position: Int, convertView: View?, parent: ViewGroup): View {
             val view = convertView ?: layoutInflater.inflate(R.layout.item_haggle_dropdown, parent, false)
             val product = getItem(position) ?: return view
-
             view.findViewById<TextView>(R.id.tvDropdownProductName).text = product.name
             view.findViewById<TextView>(R.id.tvDropdownSeller).text = product.seller
             view.findViewById<TextView>(R.id.tvDropdownPrice).text = getString(R.string.price_format, product.price)

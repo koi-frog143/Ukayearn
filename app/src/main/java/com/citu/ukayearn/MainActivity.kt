@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
-import androidx.activity.OnBackPressedCallback // ✅ Added Import
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.NavOptions // ✅ Added Import
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.citu.ukayearn.data.Database
@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         compactBottomNavSpacing(bottomNav)
         refreshChatBadge()
 
+        val bottomNavMenu = bottomNav.menu
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.nav_splash ||
                 destination.id == R.id.nav_login ||
@@ -37,28 +39,30 @@ class MainActivity : AppCompatActivity() {
             } else {
                 bottomNavContainer.visibility = View.VISIBLE
             }
+
+            // ✅ SELLER UI DIFFERENTIATION
+            if (Database.isCurrentUserSeller()) {
+                bottomNavMenu.findItem(R.id.nav_cart)?.isVisible = false
+                bottomNavMenu.findItem(R.id.nav_haggle)?.isVisible = false
+                bottomNavMenu.findItem(R.id.nav_listing)?.isVisible = true
+            } else {
+                bottomNavMenu.findItem(R.id.nav_cart)?.isVisible = true
+                bottomNavMenu.findItem(R.id.nav_haggle)?.isVisible = true
+                bottomNavMenu.findItem(R.id.nav_listing)?.isVisible = false
+            }
+
             refreshChatBadge()
         }
 
-        // ✅ PHASE 3: GLOBAL HARDWARE BACK BUTTON OVERRIDE
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 val currentId = navController.currentDestination?.id
-
-                // If on a root screen, let the system handle it (exits the app)
-                if (currentId == R.id.nav_home ||
-                    currentId == R.id.nav_login ||
-                    currentId == R.id.nav_splash) {
-
+                if (currentId == R.id.nav_home || currentId == R.id.nav_login || currentId == R.id.nav_splash) {
                     isEnabled = false
                     onBackPressedDispatcher.onBackPressed()
                     isEnabled = true
-
                 } else {
-                    // Otherwise, force navigate back to the Home screen directly
-                    val navOptions = NavOptions.Builder()
-                        .setPopUpTo(R.id.nav_home, inclusive = false)
-                        .build()
+                    val navOptions = NavOptions.Builder().setPopUpTo(R.id.nav_home, inclusive = false).build()
                     navController.navigate(R.id.nav_home, null, navOptions)
                 }
             }
@@ -89,16 +93,9 @@ class MainActivity : AppCompatActivity() {
             menuView.clipToPadding = false
             for (index in 0 until menuView.childCount) {
                 val itemView = menuView.getChildAt(index) as? ViewGroup ?: continue
-                val icon = itemView.findViewById<View>(
-                    com.google.android.material.R.id.navigation_bar_item_icon_view
-                )
-                val smallLabel = itemView.findViewById<View>(
-                    com.google.android.material.R.id.navigation_bar_item_small_label_view
-                )
-                val largeLabel = itemView.findViewById<View>(
-                    com.google.android.material.R.id.navigation_bar_item_large_label_view
-                )
-
+                val icon = itemView.findViewById<View>(com.google.android.material.R.id.navigation_bar_item_icon_view)
+                val smallLabel = itemView.findViewById<View>(com.google.android.material.R.id.navigation_bar_item_small_label_view)
+                val largeLabel = itemView.findViewById<View>(com.google.android.material.R.id.navigation_bar_item_large_label_view)
                 itemView.minimumHeight = 0
                 itemView.clipChildren = false
                 itemView.clipToPadding = false
@@ -109,6 +106,5 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     private fun Int.dp(): Float = this * resources.displayMetrics.density
 }

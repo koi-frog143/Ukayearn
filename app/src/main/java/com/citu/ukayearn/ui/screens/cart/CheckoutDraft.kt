@@ -4,7 +4,8 @@ import com.citu.ukayearn.data.models.Product
 
 data class CheckoutItem(
     val product: Product,
-    val quantity: Int
+    var quantity: Int,
+    var orderId: Int? = null // Added so buyers can mark specific orders as received
 )
 
 object CheckoutDraft {
