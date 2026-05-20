@@ -19,7 +19,7 @@ import com.citu.ukayearn.data.Database
 import com.citu.ukayearn.data.models.User
 
 class LoginFragment : Fragment() {
-    
+
     private var isSignupPasswordVisible = false
     private var isSignupConfirmPasswordVisible = false
     private var isLoginPasswordVisible = false
@@ -28,8 +28,7 @@ class LoginFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
 
         val authFlipper = view.findViewById<ViewFlipper>(R.id.authFlipper)
-        
-        // Custom animations for smoother sliding
+
         authFlipper.setInAnimation(context, R.anim.slide_in_right)
         authFlipper.setOutAnimation(context, R.anim.slide_out_left)
 
@@ -38,10 +37,10 @@ class LoginFragment : Fragment() {
         val etSignupUsername = view.findViewById<EditText>(R.id.etSignupUsername)
         val etSignupPassword = view.findViewById<EditText>(R.id.etSignupPassword)
         val etSignupConfirmPassword = view.findViewById<EditText>(R.id.etSignupConfirmPassword)
-        
+
         val btnSignupTogglePassword = view.findViewById<ImageButton>(R.id.btnSignupTogglePassword)
         val btnSignupToggleConfirmPassword = view.findViewById<ImageButton>(R.id.btnSignupToggleConfirmPassword)
-        
+
         val tvSignupError = view.findViewById<TextView>(R.id.tvSignupError)
         val btnSignup = view.findViewById<Button>(R.id.btnSignup)
         val tvSwitchToLogin = view.findViewById<TextView>(R.id.tvSwitchToLogin)
@@ -90,11 +89,10 @@ class LoginFragment : Fragment() {
                     tvSignupError.visibility = View.VISIBLE
                 }
                 else -> {
-                    // Add new user to database
                     Database.users.add(User(username = username, name = name, pass = password))
                     Database.currentUsername = username
 
-                    // ✅ PHASE 3: NEW ACCOUNT DEFAULTS (Clear mock data)
+                    // Safely clear mock data for new users
                     Database.cartItems.clear()
                     Database.chatMessages.clear()
                     Database.haggleOffers.clear()
@@ -103,11 +101,8 @@ class LoginFragment : Fragment() {
                     tvSignupError.visibility = View.GONE
                     Toast.makeText(context, getString(R.string.signup_success), Toast.LENGTH_SHORT).show()
 
-                    // ✅ PHASE 3: POP BACK STACK (Prevents going back to Signup)
-                    val navOptions = androidx.navigation.NavOptions.Builder()
-                        .setPopUpTo(R.id.nav_login, true)
-                        .build()
-                    findNavController().navigate(R.id.action_login_to_home, null, navOptions)
+                    // Simple, safe navigation
+                    findNavController().navigate(R.id.action_login_to_home)
                 }
             }
         }
@@ -115,7 +110,7 @@ class LoginFragment : Fragment() {
         tvSwitchToLogin.setOnClickListener {
             authFlipper.setInAnimation(context, R.anim.slide_in_right)
             authFlipper.setOutAnimation(context, R.anim.slide_out_left)
-            authFlipper.displayedChild = 1 // Log In layout
+            authFlipper.displayedChild = 1
         }
 
 
@@ -123,7 +118,7 @@ class LoginFragment : Fragment() {
         val etLoginUsername = view.findViewById<EditText>(R.id.etLoginUsername)
         val etLoginPassword = view.findViewById<EditText>(R.id.etLoginPassword)
         val btnLoginTogglePassword = view.findViewById<ImageButton>(R.id.btnLoginTogglePassword)
-        
+
         val tvLoginError = view.findViewById<TextView>(R.id.tvLoginError)
         val btnLogin = view.findViewById<Button>(R.id.btnLogin)
         val tvSwitchToSignup = view.findViewById<TextView>(R.id.tvSwitchToSignup)
@@ -149,12 +144,8 @@ class LoginFragment : Fragment() {
             if (isValid) {
                 Database.currentUsername = user
                 tvLoginError.visibility = View.GONE
-
-                // ✅ PHASE 3: POP BACK STACK (Prevents going back to Login)
-                val navOptions = androidx.navigation.NavOptions.Builder()
-                    .setPopUpTo(R.id.nav_login, true)
-                    .build()
-                findNavController().navigate(R.id.action_login_to_home, null, navOptions)
+                // Simple, safe navigation
+                findNavController().navigate(R.id.action_login_to_home)
             } else {
                 tvLoginError.visibility = View.VISIBLE
             }
@@ -163,7 +154,7 @@ class LoginFragment : Fragment() {
         tvSwitchToSignup.setOnClickListener {
             authFlipper.setInAnimation(context, R.anim.slide_in_left)
             authFlipper.setOutAnimation(context, R.anim.slide_out_right)
-            authFlipper.displayedChild = 0 // Sign Up layout
+            authFlipper.displayedChild = 0
         }
 
         return view
