@@ -5,12 +5,14 @@ data class Product(
     val name: String,
     val description: String,
     val price: Double,
-    val originalPrice: Double, // Added this specifically for your Feature 7 (Thrift History/Relief)
+    val originalPrice: Double,
     val seller: String,
     val category: String,
     val imageUrl: String,
     val dateAdded: String,
     val categories: List<String> = listOf(category),
-    val isLocked: Boolean = false, // For Feature 6: The 15-minute cart lock
-    val stock: Int = 1
+    var isLocked: Boolean = false, // Changed to var for checkout locks
+    var lockedUntil: Long? = null, // Added for 7-minute rule
+    var lockedBy: String? = null,  // Added to track who locked it
+    var stock: Int = 1             // Changed to var for dynamic depletion
 )

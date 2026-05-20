@@ -92,7 +92,6 @@ class LoginFragment : Fragment() {
                     Database.users.add(User(username = username, name = name, pass = password))
                     Database.currentUsername = username
 
-                    // Safely clear mock data for new users
                     Database.cartItems.clear()
                     Database.chatMessages.clear()
                     Database.haggleOffers.clear()

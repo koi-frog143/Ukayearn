@@ -93,60 +93,60 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     private fun bindProfileHeader(view: View) {
         val isSeller = Database.isCurrentUserSeller()
+        val username = Database.currentUsername
+        val sellerName = Database.currentSellerName()
+
         view.findViewById<TextView>(R.id.tvProfileName).text = Database.currentDisplayName()
         view.findViewById<TextView>(R.id.tvProfileEmail).text = Database.currentEmail()
         view.findViewById<TextView>(R.id.tvProfileBadge).text = Database.currentProfileBadge()
         bindProfilePhoto(view.findViewById(R.id.ivProfilePhoto), Database.currentProfileImageUri())
 
+        // Setup UI stats
         view.findViewById<TextView>(R.id.tvProfileStatOneValue).text = if (isSeller) {
-            Database.products.count { it.seller == Database.currentSellerName() }.toString()
+            Database.orders.count { it.sellerName == sellerName && it.status == Database.OrderStatus.PENDING_SHIPMENT }.toString()
         } else {
-            "2"
+            Database.orders.count { it.buyerUsername == username && it.status == Database.OrderStatus.PENDING_SHIPMENT }.toString()
         }
-        view.findViewById<TextView>(R.id.tvProfileStatOneLabel).text = if (isSeller) {
-            getString(R.string.profile_listings)
-        } else {
-            getString(R.string.to_ship)
-        }
+
         view.findViewById<TextView>(R.id.tvProfileStatTwoValue).text = if (isSeller) {
-            Database.haggleOffersForCurrentSeller().count {
-                it.status == Database.HaggleStatus.PENDING
-            }.toString()
+            Database.orders.count { it.sellerName == sellerName && it.status == Database.OrderStatus.SHIPPED }.toString()
         } else {
-            "1"
+            Database.orders.count { it.buyerUsername == username && it.status == Database.OrderStatus.SHIPPED }.toString()
         }
-        view.findViewById<TextView>(R.id.tvProfileStatTwoLabel).text = if (isSeller) {
-            getString(R.string.profile_pending)
-        } else {
-            getString(R.string.to_receive)
-        }
+
         view.findViewById<TextView>(R.id.tvProfileStatThreeValue).text = if (isSeller) {
-            Database.haggleOffersForCurrentSeller().count {
-                it.status == Database.HaggleStatus.APPROVED
-            }.toString()
+            Database.orders.count { it.sellerName == sellerName && it.status == Database.OrderStatus.COMPLETED }.toString()
         } else {
-            "8"
-        }
-        view.findViewById<TextView>(R.id.tvProfileStatThreeLabel).text = if (isSeller) {
-            getString(R.string.profile_approved)
-        } else {
-            getString(R.string.completed_orders)
+            Database.orders.count { it.buyerUsername == username && it.status == Database.OrderStatus.COMPLETED }.toString()
         }
 
-        // ✅ PHASE 4: Make Order Statuses Clickable
+        // ✅ THE FIX: Safe Navigation Wrapper
+        val safeNavigate = { resId: Int ->
+            try {
+                val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                navController.navigate(resId)
+                dismiss()
+            } catch (e: Exception) {
+                Toast.makeText(requireContext(), "Navigation error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        // Stat 1 (To Ship / Pending)
         view.findViewById<View>(R.id.tvProfileStatOneValue).setOnClickListener {
-            Toast.makeText(requireContext(), "Opening 'Orders/Listings'...", Toast.LENGTH_SHORT).show()
-            dismiss()
+            if (isSeller) safeNavigate(R.id.nav_seller_orders)
+            else Toast.makeText(requireContext(), "Pending Shipments", Toast.LENGTH_SHORT).show()
         }
 
+        // Stat 2 (Shipped / To Receive)
         view.findViewById<View>(R.id.tvProfileStatTwoValue).setOnClickListener {
-            Toast.makeText(requireContext(), "Opening 'Pending/To Receive'...", Toast.LENGTH_SHORT).show()
-            dismiss()
+            if (!isSeller) safeNavigate(R.id.nav_history)
+            else Toast.makeText(requireContext(), "Shipped Orders", Toast.LENGTH_SHORT).show()
         }
 
+        // Stat 3 (Completed)
         view.findViewById<View>(R.id.tvProfileStatThreeValue).setOnClickListener {
-            Toast.makeText(requireContext(), "Opening 'Completed/Approved'...", Toast.LENGTH_SHORT).show()
-            dismiss()
+            if (!isSeller) safeNavigate(R.id.nav_history)
+            else Toast.makeText(requireContext(), "Completed Sales", Toast.LENGTH_SHORT).show()
         }
     }
 

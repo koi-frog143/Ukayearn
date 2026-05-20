@@ -79,15 +79,23 @@ class CartFragment : Fragment() {
 
         view.findViewById<Button>(R.id.btnCheckout).setOnClickListener {
             val selectedItems = cartAdapter.selectedItems()
-            if (selectedItems.isEmpty()) {
-                Toast.makeText(context, R.string.select_items_before_checkout, Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            if (selectedItems.isNotEmpty()) {
+                val currentTime = System.currentTimeMillis()
+                val sevenMinsInMillis = 7 * 60 * 1000L
 
-            CheckoutDraft.items = selectedItems.map {
-                CheckoutItem(product = it.product, quantity = it.quantity)
+                // ✅ 7-MINUTE RULE: Lock the items!
+                selectedItems.forEach {
+                    it.product.isLocked = true
+                    it.product.lockedUntil = currentTime + sevenMinsInMillis
+                    it.product.lockedBy = Database.currentUsername
+                }
+
+                CheckoutDraft.items = selectedItems.map { CheckoutItem(it.product, it.quantity) }
+                findNavController().navigate(R.id.action_cart_to_checkout)
+            } else {
+                // ✅ FIX 1: Hardcoded string to bypass the missing strings.xml resource
+                Toast.makeText(requireContext(), "Please select items to checkout", Toast.LENGTH_SHORT).show()
             }
-            findNavController().navigate(R.id.action_cart_to_checkout)
         }
 
         bindTotals(view)
@@ -129,22 +137,28 @@ class CartFragment : Fragment() {
     }
 
     private fun bindToReceiveItems() {
-        val toReceive = Database.toReceiveItems.map {
-            CheckoutItem(product = it.product, quantity = it.quantity)
+        // ✅ FIX 2: Migrate "To Receive" tab to use the new Orders system
+        val shippedOrders = Database.orders.filter {
+            it.buyerUsername == Database.currentUsername && it.status == Database.OrderStatus.SHIPPED
         }
+
+        val toReceive = shippedOrders.map { order ->
+            CheckoutItem(product = order.product, quantity = order.quantity, orderId = order.id)
+        }
+
         rootView.findViewById<RecyclerView>(R.id.rvToReceiveItems).adapter =
             CheckoutItemAdapter(
                 items = toReceive,
                 showReceivedAction = true,
                 onReceivedClicked = { item ->
+                    val orderId = item.orderId ?: return@CheckoutItemAdapter
                     val prompt = getString(R.string.item_received_prompt, item.product.name)
-                    Database.markToReceiveItemReceived(item.product.id)
+
+                    // Use new Order system instead of the deleted function
+                    Database.markOrderCompleted(orderId)
                     Database.sendReceivedPromptToSeller(item.product.seller, prompt)
-                    Toast.makeText(
-                        requireContext(),
-                        prompt,
-                        Toast.LENGTH_LONG
-                    ).show()
+
+                    Toast.makeText(requireContext(), prompt, Toast.LENGTH_LONG).show()
                     Toast.makeText(requireContext(), R.string.item_marked_received, Toast.LENGTH_SHORT).show()
                     bindToReceiveItems()
                 }
@@ -165,8 +179,13 @@ class CartFragment : Fragment() {
 
         rootView.findViewById<View>(R.id.tvToReceiveHeader).visibility = receiveVisibility
         rootView.findViewById<View>(R.id.rvToReceiveItems).visibility = receiveVisibility
+
+        // Update empty state check to use new Order system
+        val hasShippedOrders = Database.orders.any {
+            it.buyerUsername == Database.currentUsername && it.status == Database.OrderStatus.SHIPPED
+        }
         rootView.findViewById<View>(R.id.tvToReceiveEmpty).visibility =
-            if (showToReceive && Database.toReceiveItems.isEmpty()) View.VISIBLE else View.GONE
+            if (showToReceive && !hasShippedOrders) View.VISIBLE else View.GONE
 
         rootView.findViewById<TextView>(R.id.tabMyCart).apply {
             setBackgroundResource(if (showToReceive) android.R.color.transparent else R.drawable.premium_badge_bg)
