@@ -65,7 +65,7 @@ object Database {
         )
     )
 
-    val products = listOf(
+    var products = mutableListOf(
         Product(1, "Vintage Carhartt Detroit Jacket", "Faded moss green, perfect streetwear piece. 1 of 1.", 1200.0, 4500.0, "ThriftKada", "Outerwear", "images/items/jacket 1.jpg", "2026-05-19", listOf("Outerwear", "Adult")),
         Product(2, "Y2K Baggy Denim Jeans", "Wide leg, distressed hem. Size 32 waist.", 850.0, 2200.0, "CebuFinds", "Bottoms", "images/items/baggy jeans.jfif", "2026-05-17", listOf("Bottoms", "Teen", "Adult")),
         Product(3, "Retro Nike Windbreaker", "90s colorblock design. Mint condition.", 950.0, 3100.0, "UkayBoss", "Outerwear", "images/items/jacket 2.jfif", "2026-05-20", listOf("Outerwear", "Teen")),
@@ -147,6 +147,16 @@ object Database {
 
     fun effectiveCartUnitPrice(product: Product): Double {
         return approvedHaggleVouchers[product.id] ?: product.price
+    }
+
+    fun calculateItemTotal(product: Product, quantity: Int): Double {
+        val haggledPrice = approvedHaggleVouchers[product.id]
+        return if (haggledPrice != null && quantity > 0) {
+            // 1 gets the haggle discount, the remainder gets regular price
+            haggledPrice + (product.price * (quantity - 1))
+        } else {
+            product.price * quantity
+        }
     }
 
     fun isCurrentUserSellerFor(seller: String): Boolean {
@@ -372,6 +382,45 @@ object Database {
     ) {
         fun isComplete(): Boolean {
             return address.isNotBlank() && phone.isNotBlank() && landmark.isNotBlank()
+        }
+    }
+
+    // Feature: Option to add product
+    fun addProduct(name: String, description: String, price: Double, category: String, imageUrl: String, stock: Int) {
+        val sellerName = currentSellerName() ?: return
+        val newId = (products.maxOfOrNull { it.id } ?: 0) + 1
+        val dateAdded = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault()).format(java.util.Date())
+
+        val newProduct = Product(
+            id = newId,
+            name = name,
+            description = description,
+            price = price,
+            originalPrice = price + (price * 0.2), // Rough estimate for original price
+            seller = sellerName,
+            category = category,
+            imageUrl = imageUrl,
+            dateAdded = dateAdded,
+            categories = listOf(category, "Adult"),
+            stock = stock
+        )
+        // Add to the top of the list so it appears first
+        products.add(0, newProduct)
+    }
+
+    // Feature: Option to delete product
+    fun deleteProduct(productId: Int) {
+        products.removeAll { it.id == productId }
+        cartItems.removeAll { it.product.id == productId } // Remove from carts if it was added
+    }
+
+    // Feature: Option to mark product as sold out
+    fun markProductSoldOut(productId: Int) {
+        val index = products.indexOfFirst { it.id == productId }
+        if (index != -1) {
+            val product = products[index]
+            // Sets stock to 0 to trigger the "Out of Stock" logic we built in Phase 1
+            products[index] = product.copy(stock = 0)
         }
     }
 }

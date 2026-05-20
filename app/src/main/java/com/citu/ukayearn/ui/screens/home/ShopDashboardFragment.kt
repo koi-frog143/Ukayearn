@@ -20,9 +20,11 @@ class ShopDashboardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val visibleStores = Database.stores.filter { !Database.isCurrentUserSellerFor(it.name) }
+
         view.findViewById<RecyclerView>(R.id.rvShopDashboard).apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = ShopDashboardAdapter(Database.stores)
+            adapter = ShopDashboardAdapter(visibleStores)
         }
     }
 }

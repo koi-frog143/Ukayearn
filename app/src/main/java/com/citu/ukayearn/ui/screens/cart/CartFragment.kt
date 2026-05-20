@@ -102,7 +102,7 @@ class CartFragment : Fragment() {
 
     private fun bindTotals(view: View) {
         val selectedItems = if (::cartAdapter.isInitialized) cartAdapter.selectedItems() else emptyList()
-        val subtotal = selectedItems.sumOf { Database.effectiveCartUnitPrice(it.product) * it.quantity }
+        val subtotal = selectedItems.sumOf { Database.calculateItemTotal(it.product, it.quantity) }
         val hasSelectedItems = selectedItems.isNotEmpty()
         val buyerProtection = if (hasSelectedItems) Database.buyerProtectionFee else 0.0
         val delivery = if (hasSelectedItems) Database.deliveryFee else 0.0

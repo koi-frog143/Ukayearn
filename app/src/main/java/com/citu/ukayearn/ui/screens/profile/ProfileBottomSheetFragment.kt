@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewOutlineProvider
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
@@ -131,6 +132,22 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
         } else {
             getString(R.string.completed_orders)
         }
+
+        // ✅ PHASE 4: Make Order Statuses Clickable
+        view.findViewById<View>(R.id.tvProfileStatOneValue).setOnClickListener {
+            Toast.makeText(requireContext(), "Opening 'Orders/Listings'...", Toast.LENGTH_SHORT).show()
+            dismiss()
+        }
+
+        view.findViewById<View>(R.id.tvProfileStatTwoValue).setOnClickListener {
+            Toast.makeText(requireContext(), "Opening 'Pending/To Receive'...", Toast.LENGTH_SHORT).show()
+            dismiss()
+        }
+
+        view.findViewById<View>(R.id.tvProfileStatThreeValue).setOnClickListener {
+            Toast.makeText(requireContext(), "Opening 'Completed/Approved'...", Toast.LENGTH_SHORT).show()
+            dismiss()
+        }
     }
 
     private fun bindProfilePhoto(imageView: ImageView, imageUri: String?) {
@@ -138,10 +155,20 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
             imageView.setImageResource(R.drawable.ic_profile_24)
             imageView.setPadding(0, 0, 0, 0)
             imageView.imageTintList = ColorStateList.valueOf(requireContext().getColor(R.color.secondary_blue))
+            imageView.clipToOutline = false
         } else {
             imageView.imageTintList = null
             imageView.setPadding(0, 0, 0, 0)
             imageView.setImageURI(Uri.parse(imageUri))
+
+            imageView.post {
+                imageView.outlineProvider = object : ViewOutlineProvider() { // Use the imported class
+                    override fun getOutline(view: View, outline: android.graphics.Outline) {
+                        outline.setOval(0, 0, view.width, view.height)
+                    }
+                }
+                imageView.clipToOutline = true
+            }
         }
     }
 
@@ -233,16 +260,6 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
         dialog.show()
         dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
-    }
-
-    private fun bindComingSoon(view: View, rowId: Int, label: String, iconRes: Int) {
-        configureRow(view, rowId, label, iconRes).setOnClickListener {
-            Toast.makeText(
-                requireContext(),
-                getString(R.string.profile_action_coming_soon, label),
-                Toast.LENGTH_SHORT
-            ).show()
-        }
     }
 
     private fun configureRow(

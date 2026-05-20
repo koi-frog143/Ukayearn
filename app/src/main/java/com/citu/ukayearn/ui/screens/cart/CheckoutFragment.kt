@@ -31,7 +31,7 @@ class CheckoutFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val checkoutItems = CheckoutDraft.items
-        val subtotal = checkoutItems.sumOf { Database.effectiveCartUnitPrice(it.product) * it.quantity }
+        val subtotal = checkoutItems.sumOf { Database.calculateItemTotal(it.product, it.quantity) }
         val delivery = if (checkoutItems.isNotEmpty()) Database.deliveryFee else 0.0
         val buyerProtection = if (checkoutItems.isNotEmpty()) Database.buyerProtectionFee else 0.0
         val total = subtotal + delivery + buyerProtection

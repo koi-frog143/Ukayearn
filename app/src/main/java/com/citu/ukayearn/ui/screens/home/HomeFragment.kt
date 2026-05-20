@@ -7,8 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.view.ViewOutlineProvider
 import androidx.appcompat.app.AlertDialog
 import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
@@ -76,9 +78,11 @@ class HomeFragment : Fragment() {
             androidx.navigation.Navigation.findNavController(view).navigate(R.id.nav_shop, bundle)
         }
 
+        // ✅ Restrict sellers from seeing their own shop in the store list
+        val visibleStores = Database.stores.filter { !Database.isCurrentUserSellerFor(it.name) }
         view.findViewById<RecyclerView>(R.id.rvStores).apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-            adapter = StoreShowcaseAdapter(Database.stores, openStore)
+            adapter = StoreShowcaseAdapter(visibleStores, openStore)
         }
 
         searchStoreAdapter = StoreShowcaseAdapter(emptyList(), openStore)
@@ -94,14 +98,12 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // Find the RecyclerView in our layout
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvProducts)
-
-        // Set it to display items in a grid with 2 columns
         recyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
 
-        // Get our hardcoded products and attach the adapter
-        productAdapter = ProductAdapter(Database.newCollectionProducts())
+        // ✅ Restrict sellers from seeing their own items in New Collections
+        val visibleProducts = Database.newCollectionProducts().filter { !Database.isCurrentUserSellerFor(it.seller) }
+        productAdapter = ProductAdapter(visibleProducts)
         recyclerView.adapter = productAdapter
 
         searchProductAdapter = ProductAdapter(emptyList())
@@ -139,7 +141,24 @@ class HomeFragment : Fragment() {
             androidx.navigation.Navigation.findNavController(view).navigate(R.id.nav_shop_dashboard)
         }
 
-        view.findViewById<View>(R.id.btnProfile).setOnClickListener {
+        // ✅ PHASE 4: Load actual profile image into Home Page header
+        val btnProfile = view.findViewById<ImageView>(R.id.btnProfile)
+        val profileUri = Database.currentProfileImageUri()
+
+        if (!profileUri.isNullOrBlank()) {
+            btnProfile.setImageURI(android.net.Uri.parse(profileUri))
+            btnProfile.imageTintList = null
+            btnProfile.post {
+                btnProfile.outlineProvider = object : ViewOutlineProvider() { // Use the imported class directly
+                    override fun getOutline(view: View, outline: android.graphics.Outline) {
+                        outline.setOval(0, 0, view.width, view.height)
+                    }
+                }
+                btnProfile.clipToOutline = true
+            }
+        }
+
+        btnProfile.setOnClickListener {
             ProfileBottomSheetFragment().show(parentFragmentManager, ProfileBottomSheetFragment.TAG)
         }
 
@@ -246,13 +265,14 @@ class HomeFragment : Fragment() {
         val matchingStores = if (searchScope == SearchScope.ITEMS) {
             emptyList()
         } else {
-            Database.stores.filter { store -> store.matches(query) }
+            // ✅ Restrict search results
+            Database.stores.filter { store -> store.matches(query) && !Database.isCurrentUserSellerFor(store.name) }
         }
         val matchingProducts = if (searchScope == SearchScope.SHOPS) {
             emptyList()
         } else {
             Database.products
-                .filter { product -> product.matches(query) }
+                .filter { product -> product.matches(query) && !Database.isCurrentUserSellerFor(product.seller) } // ✅ Restrict items
                 .filter { product -> selectedCategories.isEmpty() || selectedCategories.all { it in product.categories } }
                 .filter { product -> selectedPriceRange.contains(product.price) }
                 .sortedBy { it.price }
@@ -283,10 +303,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun showCategory(category: Category) {
+        // ✅ Restrict categories list
+        val baseProducts = Database.products.filter { !Database.isCurrentUserSellerFor(it.seller) }
         val products = if (category.id == "all") {
-            Database.products
+            baseProducts
         } else {
-            Database.products.filter { product ->
+            baseProducts.filter { product ->
                 product.categories.any { it.equals(category.name, ignoreCase = true) }
             }
         }
@@ -300,7 +322,8 @@ class HomeFragment : Fragment() {
 
     private fun showNewCollection(scrollToList: Boolean = false) {
         sectionTitle.text = getString(R.string.newest_finds)
-        productAdapter.submitList(Database.newCollectionProducts())
+        // ✅ Restrict new collection view
+        productAdapter.submitList(Database.newCollectionProducts().filter { !Database.isCurrentUserSellerFor(it.seller) })
         if (scrollToList) {
             scrollView.post {
                 scrollView.smoothScrollTo(0, sectionTitle.top)
@@ -311,16 +334,16 @@ class HomeFragment : Fragment() {
     private fun Store.matches(query: String): Boolean {
         if (query.isBlank()) return true
         return name.contains(query, ignoreCase = true) ||
-            location.contains(query, ignoreCase = true) ||
-            tagline.contains(query, ignoreCase = true)
+                location.contains(query, ignoreCase = true) ||
+                tagline.contains(query, ignoreCase = true)
     }
 
     private fun Product.matches(query: String): Boolean {
         if (query.isBlank()) return true
         return name.contains(query, ignoreCase = true) ||
-            seller.contains(query, ignoreCase = true) ||
-            categories.any { it.contains(query, ignoreCase = true) } ||
-            description.contains(query, ignoreCase = true)
+                seller.contains(query, ignoreCase = true) ||
+                categories.any { it.contains(query, ignoreCase = true) } ||
+                description.contains(query, ignoreCase = true)
     }
 
     private enum class SearchScope {

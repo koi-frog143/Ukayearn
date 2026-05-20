@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.fragment.findNavController
 import androidx.fragment.app.Fragment
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.Database
@@ -31,18 +32,37 @@ class ProductDetailsFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.btnHaggle).setOnClickListener {
-            Toast.makeText(context, R.string.haggle_opening_message, Toast.LENGTH_SHORT).show()
+            product?.let { currentProduct ->
+                // Automatically add to cart if not already there
+                val existingItem = Database.cartItems.find { it.product.id == currentProduct.id }
+                if (existingItem == null) {
+                    Database.cartItems.add(CartItem(currentProduct, 1))
+                    Toast.makeText(context, "${currentProduct.name} added to cart for Haggle", Toast.LENGTH_SHORT).show()
+                }
+
+                // Redirect to Haggle section
+                findNavController().navigate(R.id.nav_haggle)
+            }
         }
 
         view.findViewById<Button>(R.id.btnAddToCart).setOnClickListener {
             product?.let { currentProduct ->
                 val existingItem = Database.cartItems.find { it.product.id == currentProduct.id }
                 if (existingItem != null) {
-                    existingItem.quantity++
-                    Toast.makeText(context, "${currentProduct.name} quantity increased to ${existingItem.quantity}", Toast.LENGTH_SHORT).show()
+                    // Limit adding beyond stock
+                    if (existingItem.quantity < currentProduct.stock) {
+                        existingItem.quantity++
+                        Toast.makeText(context, "${currentProduct.name} quantity increased to ${existingItem.quantity}", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Maximum stock reached", Toast.LENGTH_SHORT).show()
+                    }
                 } else {
-                    Database.cartItems.add(CartItem(currentProduct, 1))
-                    Toast.makeText(context, "${currentProduct.name} added to cart", Toast.LENGTH_SHORT).show()
+                    if (currentProduct.stock > 0) {
+                        Database.cartItems.add(CartItem(currentProduct, 1))
+                        Toast.makeText(context, "${currentProduct.name} added to cart", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Item is out of stock", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }

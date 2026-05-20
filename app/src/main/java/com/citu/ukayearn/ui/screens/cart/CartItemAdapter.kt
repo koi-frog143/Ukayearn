@@ -9,6 +9,7 @@ import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
 import com.citu.ukayearn.R
@@ -44,7 +45,11 @@ class CartItemAdapter(
         holder.tvName.text = item.product.name
         holder.tvDescription.text = item.product.description
         AssetImageLoader.load(holder.ivImage, item.product.imageUrl)
+
+        // Calculate totals using our new restricted logic
         val effectivePrice = Database.effectiveCartUnitPrice(item.product)
+        val lineTotal = Database.calculateItemTotal(item.product, item.quantity)
+
         holder.tvPrice.text = if (effectivePrice < item.product.price) {
             context.getString(
                 R.string.cart_haggle_price_format,
@@ -54,9 +59,11 @@ class CartItemAdapter(
             context.getString(R.string.price_format, item.product.price)
         }
         holder.tvQuantity.text = item.quantity.toString()
+
+        // Use the new restricted line total
         holder.tvLineTotal.text = context.getString(
             R.string.cart_line_total_format,
-            context.getString(R.string.price_format, effectivePrice * item.quantity)
+            context.getString(R.string.price_format, lineTotal)
         )
 
         holder.cbSelected.setOnCheckedChangeListener { _, isChecked ->
@@ -77,9 +84,14 @@ class CartItemAdapter(
         }
 
         holder.btnIncreaseQuantity.setOnClickListener {
-            item.quantity += 1
-            notifyChangedPosition(holder)
-            onCartChanged()
+            // Check against product stock limit
+            if (item.quantity < item.product.stock) {
+                item.quantity += 1
+                notifyChangedPosition(holder)
+                onCartChanged()
+            } else {
+                Toast.makeText(context, "Maximum stock reached", Toast.LENGTH_SHORT).show()
+            }
         }
 
         holder.btnDelete.setOnClickListener {

@@ -93,11 +93,21 @@ class LoginFragment : Fragment() {
                     // Add new user to database
                     Database.users.add(User(username = username, name = name, pass = password))
                     Database.currentUsername = username
+
+                    // ✅ PHASE 3: NEW ACCOUNT DEFAULTS (Clear mock data)
+                    Database.cartItems.clear()
+                    Database.chatMessages.clear()
+                    Database.haggleOffers.clear()
+                    Database.toReceiveItems.clear()
+
                     tvSignupError.visibility = View.GONE
                     Toast.makeText(context, getString(R.string.signup_success), Toast.LENGTH_SHORT).show()
-                    
-                    // Route directly to home after success
-                    findNavController().navigate(R.id.action_login_to_home)
+
+                    // ✅ PHASE 3: POP BACK STACK (Prevents going back to Signup)
+                    val navOptions = androidx.navigation.NavOptions.Builder()
+                        .setPopUpTo(R.id.nav_login, true)
+                        .build()
+                    findNavController().navigate(R.id.action_login_to_home, null, navOptions)
                 }
             }
         }
@@ -139,7 +149,12 @@ class LoginFragment : Fragment() {
             if (isValid) {
                 Database.currentUsername = user
                 tvLoginError.visibility = View.GONE
-                findNavController().navigate(R.id.action_login_to_home)
+
+                // ✅ PHASE 3: POP BACK STACK (Prevents going back to Login)
+                val navOptions = androidx.navigation.NavOptions.Builder()
+                    .setPopUpTo(R.id.nav_login, true)
+                    .build()
+                findNavController().navigate(R.id.action_login_to_home, null, navOptions)
             } else {
                 tvLoginError.visibility = View.VISIBLE
             }
