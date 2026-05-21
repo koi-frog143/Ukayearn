@@ -328,6 +328,10 @@ object Database {
         return addChatMessage(seller, senderUsername, null, imageUri, ChatMessageType.IMAGE)
     }
 
+    fun deleteChatMessage(messageId: Int) {
+        chatMessages.removeAll { it.id == messageId }
+    }
+
     private fun addChatMessage(
         seller: String,
         senderUsername: String,

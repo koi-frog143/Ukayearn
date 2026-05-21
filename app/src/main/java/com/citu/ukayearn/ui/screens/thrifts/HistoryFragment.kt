@@ -65,7 +65,7 @@ class HistoryFragment : Fragment() {
             val tvName: TextView = view.findViewById(R.id.tvCheckoutProductName)
             val tvStatus: TextView = view.findViewById(R.id.tvCheckoutSeller)
             val tvPrice: TextView = view.findViewById(R.id.tvCheckoutPrice)
-            val btnReceive: Button = view.findViewById(R.id.btnReceived)
+            val btnReceive: TextView = view.findViewById(R.id.btnReceived)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {

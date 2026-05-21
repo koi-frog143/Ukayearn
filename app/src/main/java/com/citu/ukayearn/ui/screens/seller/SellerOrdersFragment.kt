@@ -65,8 +65,8 @@ class SellerOrdersFragment : Fragment() {
             val tvName: TextView = view.findViewById(R.id.tvCheckoutProductName)
             val tvBuyer: TextView = view.findViewById(R.id.tvCheckoutSeller)
             val tvPrice: TextView = view.findViewById(R.id.tvCheckoutPrice)
-            // Use the correct ID for the shipping button
-            val btnShip: Button = view.findViewById(R.id.btnReceived)
+            // btnReceived is implemented as a clickable TextView in the layout
+            val btnShip: TextView = view.findViewById(R.id.btnReceived)
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {

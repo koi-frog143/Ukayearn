@@ -123,12 +123,7 @@ class HaggleFragment : Fragment() {
             return
         }
 
-        // ✅ AUTO-APPROVE VOUCHER IMPLEMENTATION
-        // If the buyer only asks for a 5%, 10%, or 15% discount, it auto-approves!
-        val discountPercentage = 1.0 - (offerPrice / selectedProduct.price)
-        val isApproved = discountPercentage <= 0.16
-
-        val finalStatus = if (isApproved) Database.HaggleStatus.APPROVED else Database.HaggleStatus.PENDING
+        val finalStatus = Database.HaggleStatus.PENDING
 
         val offer = Database.HaggleOffer(
             id = Database.haggleOffers.size + 1,
@@ -140,14 +135,12 @@ class HaggleFragment : Fragment() {
         )
         Database.haggleOffers.add(offer)
 
-        if (isApproved) {
-            Database.approvedHaggleVouchers[selectedProduct.id] = offerPrice
-            Database.addTextChatMessage(selectedProduct.seller, selectedProduct.seller, "I accepted your Hangyo of ₱${offerPrice}! A voucher has been applied to your cart.")
-            Toast.makeText(requireContext(), "Offer Approved! Voucher applied to cart.", Toast.LENGTH_LONG).show()
-        } else {
-            Database.addTextChatMessage(selectedProduct.seller, Database.currentUsername.ifBlank { "buyer" }, "Hangyo sent for ${selectedProduct.name}: ₱${offerPrice}")
-            Toast.makeText(requireContext(), R.string.haggle_sent_to_messages, Toast.LENGTH_SHORT).show()
-        }
+        Database.addTextChatMessage(
+            selectedProduct.seller,
+            Database.currentUsername.ifBlank { "buyer" },
+            "Hangyo sent for ${selectedProduct.name}: ₱${offerPrice}"
+        )
+        Toast.makeText(requireContext(), R.string.haggle_sent_to_messages, Toast.LENGTH_SHORT).show()
 
         Database.markSellerConversationUnread(selectedProduct.seller)
         bindSelectedProduct(selectedProduct) // Refresh UI

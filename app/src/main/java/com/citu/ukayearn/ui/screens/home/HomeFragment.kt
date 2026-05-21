@@ -170,6 +170,34 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    override fun onResume() {
+        super.onResume()
+        view?.let { updateProfileAvatar(it) }
+    }
+
+    private fun updateProfileAvatar(view: View) {
+        val btnProfile = view.findViewById<View>(R.id.btnProfile)
+        if (btnProfile is ImageView) {
+            val profileUri = Database.currentProfileImageUri()
+            if (!profileUri.isNullOrBlank()) {
+                try {
+                    btnProfile.setImageURI(android.net.Uri.parse(profileUri))
+                    btnProfile.imageTintList = null
+                    btnProfile.post {
+                        btnProfile.outlineProvider = object : ViewOutlineProvider() {
+                            override fun getOutline(view: View, outline: android.graphics.Outline) {
+                                outline.setOval(0, 0, view.width, view.height)
+                            }
+                        }
+                        btnProfile.clipToOutline = true
+                    }
+                } catch (e: Exception) {
+                    // ignore invalid profile URI
+                }
+            }
+        }
+    }
+
     private fun bindSearchControls() {
         searchInput.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit

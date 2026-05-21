@@ -587,8 +587,8 @@ class ChatFragment : Fragment() {
         Database.conversationMessagesForSeller(currentSeller).forEach { message ->
             val isMine = message.senderUsername == Database.currentUsername.ifBlank { "admin" }
             val row = when (message.type) {
-                Database.ChatMessageType.TEXT -> createSentTextBubble(message.body.orEmpty(), isMine)
-                Database.ChatMessageType.IMAGE -> createSentImageBubble(Uri.parse(message.imageUri.orEmpty()), isMine)
+                Database.ChatMessageType.TEXT -> createSentTextBubble(message, isMine)
+                Database.ChatMessageType.IMAGE -> createSentImageBubble(message, isMine)
             }
             sentImageMessageRow.addView(row)
         }
@@ -596,19 +596,18 @@ class ChatFragment : Fragment() {
             if (sentImageMessageRow.childCount == 0) View.GONE else View.VISIBLE
     }
 
-    private fun createSentTextBubble(message: String, isMine: Boolean = true): View {
+    private fun createSentTextBubble(message: Database.ChatMessage, isMine: Boolean = true): View {
         val row = layoutInflater.inflate(R.layout.item_chat_sent_text, sentImageMessageRow, false) as LinearLayout
         val messageView = row.findViewById<TextView>(R.id.tvSentText)
         row.gravity = if (isMine) android.view.Gravity.END else android.view.Gravity.START
-        messageView.text = message
+        messageView.text = message.body.orEmpty()
         messageView.setTextColor(ContextCompat.getColor(requireContext(), if (isMine) R.color.white else R.color.black))
         messageView.setBackgroundResource(if (isMine) R.drawable.chat_buyer_bubble_bg else R.drawable.chat_seller_bubble_bg)
         messageView.setOnLongClickListener {
             showDeleteMessageDialog {
-                sentImageMessageRow.removeView(row)
-                if (sentImageMessageRow.childCount == 0) {
-                    sentImageMessageRow.visibility = View.GONE
-                }
+                Database.deleteChatMessage(message.id)
+                renderConversationHistory()
+                view?.let { updateInboxPreviews(it) }
                 Toast.makeText(requireContext(), R.string.message_deleted, Toast.LENGTH_SHORT).show()
             }
             true
@@ -616,19 +615,19 @@ class ChatFragment : Fragment() {
         return row
     }
 
-    private fun createSentImageBubble(uri: Uri, isMine: Boolean = true): View {
+    private fun createSentImageBubble(message: Database.ChatMessage, isMine: Boolean = true): View {
         val row = layoutInflater.inflate(R.layout.item_chat_sent_image, sentImageMessageRow, false) as LinearLayout
         val image = row.findViewById<ImageView>(R.id.ivSentImage)
         val card = row.findViewById<View>(R.id.cardSentImage)
         row.gravity = if (isMine) android.view.Gravity.END else android.view.Gravity.START
-        image.setImageURI(uri)
-        card.setOnClickListener { showImagePreview(uri) }
+        val imageUri = Uri.parse(message.imageUri.orEmpty())
+        image.setImageURI(imageUri)
+        card.setOnClickListener { showImagePreview(imageUri) }
         card.setOnLongClickListener {
             showDeleteMessageDialog {
-                sentImageMessageRow.removeView(row)
-                if (sentImageMessageRow.childCount == 0) {
-                    sentImageMessageRow.visibility = View.GONE
-                }
+                Database.deleteChatMessage(message.id)
+                renderConversationHistory()
+                view?.let { updateInboxPreviews(it) }
                 Toast.makeText(requireContext(), R.string.message_deleted, Toast.LENGTH_SHORT).show()
             }
             true
