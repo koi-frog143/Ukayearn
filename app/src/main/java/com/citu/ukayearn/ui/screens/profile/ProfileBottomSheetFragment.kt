@@ -120,34 +120,41 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
             Database.orders.count { it.buyerUsername == username && it.status == Database.OrderStatus.COMPLETED }.toString()
         }
 
-        // ✅ THE FIX: Safe Navigation Wrapper
-        val safeNavigate = { resId: Int ->
+        view.findViewById<TextView>(R.id.tvProfileStatOneLabel).text = getString(R.string.to_ship)
+        view.findViewById<TextView>(R.id.tvProfileStatTwoLabel).text =
+            if (isSeller) getString(R.string.shipped_orders) else getString(R.string.to_receive)
+        view.findViewById<TextView>(R.id.tvProfileStatThreeLabel).text = getString(R.string.completed_orders)
+
+        val safeNavigateToOrders = { status: Database.OrderStatus ->
             try {
                 val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
-                navController.navigate(resId)
-                dismiss()
+                val args = Bundle().apply {
+                    putString(ORDER_STATUS_ARG, status.name)
+                }
+                dismissAllowingStateLoss()
+                navController.navigate(if (isSeller) R.id.nav_seller_orders else R.id.nav_history, args)
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Navigation error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
 
-        // Stat 1 (To Ship / Pending)
-        view.findViewById<View>(R.id.tvProfileStatOneValue).setOnClickListener {
-            if (isSeller) safeNavigate(R.id.nav_seller_orders)
-            else Toast.makeText(requireContext(), "Pending Shipments", Toast.LENGTH_SHORT).show()
+        val openPending = View.OnClickListener {
+            safeNavigateToOrders(Database.OrderStatus.PENDING_SHIPMENT)
         }
+        view.findViewById<View>(R.id.tvProfileStatOneValue).setOnClickListener(openPending)
+        view.findViewById<View>(R.id.tvProfileStatOneLabel).setOnClickListener(openPending)
 
-        // Stat 2 (Shipped / To Receive)
-        view.findViewById<View>(R.id.tvProfileStatTwoValue).setOnClickListener {
-            if (!isSeller) safeNavigate(R.id.nav_history)
-            else Toast.makeText(requireContext(), "Shipped Orders", Toast.LENGTH_SHORT).show()
+        val openShipped = View.OnClickListener {
+            safeNavigateToOrders(Database.OrderStatus.SHIPPED)
         }
+        view.findViewById<View>(R.id.tvProfileStatTwoValue).setOnClickListener(openShipped)
+        view.findViewById<View>(R.id.tvProfileStatTwoLabel).setOnClickListener(openShipped)
 
-        // Stat 3 (Completed)
-        view.findViewById<View>(R.id.tvProfileStatThreeValue).setOnClickListener {
-            if (!isSeller) safeNavigate(R.id.nav_history)
-            else Toast.makeText(requireContext(), "Completed Sales", Toast.LENGTH_SHORT).show()
+        val openCompleted = View.OnClickListener {
+            safeNavigateToOrders(Database.OrderStatus.COMPLETED)
         }
+        view.findViewById<View>(R.id.tvProfileStatThreeValue).setOnClickListener(openCompleted)
+        view.findViewById<View>(R.id.tvProfileStatThreeLabel).setOnClickListener(openCompleted)
     }
 
     private fun bindProfilePhoto(imageView: ImageView, imageUri: String?) {
@@ -215,6 +222,7 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
             }
 
             profileSheetView?.let(::bindProfileHeader)
+            parentFragmentManager.setFragmentResult(PROFILE_UPDATED_RESULT, Bundle.EMPTY)
             Toast.makeText(requireContext(), R.string.profile_updated, Toast.LENGTH_SHORT).show()
             editProfileImageView = null
             dialog.dismiss()
@@ -280,5 +288,7 @@ class ProfileBottomSheetFragment : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "ProfileBottomSheetFragment"
+        const val PROFILE_UPDATED_RESULT = "profile_updated_result"
+        const val ORDER_STATUS_ARG = "orderStatus"
     }
 }

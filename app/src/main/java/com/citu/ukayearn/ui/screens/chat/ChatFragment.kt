@@ -146,6 +146,10 @@ class ChatFragment : Fragment() {
                 message = getString(R.string.chat_preview_ukay_boss)
             )
         }
+        bindThreadDeletion(view, R.id.rowThriftKada, getString(R.string.thriftkada))
+        bindThreadDeletion(view, R.id.rowRetroLane, getString(R.string.retro_lane))
+        bindThreadDeletion(view, R.id.rowCebuFinds, getString(R.string.cebu_finds))
+        bindThreadDeletion(view, R.id.rowUkayBoss, getString(R.string.ukay_boss))
 
         view.findViewById<View>(R.id.btnBackToInbox).setOnClickListener {
             showInbox()
@@ -464,13 +468,15 @@ class ChatFragment : Fragment() {
 
         rows.forEach { row ->
             val rowView = view.findViewById<View>(row.rowId)
+            val isDeleted = Database.isConversationDeletedForCurrentUser(row.seller)
             val rowCanShow = if (Database.isCurrentUserSeller()) {
-                Database.currentSellerName() == row.seller &&
+                !isDeleted &&
+                    Database.currentSellerName() == row.seller &&
                     (Database.latestHaggleForSeller(row.seller) != null ||
                         Database.latestReceivedPromptForSeller(row.seller) != null ||
                         Database.latestChatMessageForSeller(row.seller) != null)
             } else {
-                true
+                !isDeleted
             }
 
             val nameView = view.findViewById<TextView>(row.nameId)
@@ -533,6 +539,13 @@ class ChatFragment : Fragment() {
                 time?.visibility = View.GONE
                 Toast.makeText(requireContext(), R.string.message_deleted, Toast.LENGTH_SHORT).show()
             }
+            true
+        }
+    }
+
+    private fun bindThreadDeletion(view: View, rowId: Int, seller: String) {
+        view.findViewById<View>(rowId).setOnLongClickListener {
+            showDeleteConversationDialog(seller)
             true
         }
     }
@@ -667,6 +680,34 @@ class ChatFragment : Fragment() {
         }
         dialogView.findViewById<View>(R.id.btnDeleteConfirm).setOnClickListener {
             onConfirm()
+            dialog.dismiss()
+        }
+        dialog.show()
+        dialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+    }
+
+    private fun showDeleteConversationDialog(seller: String) {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_confirm_delete, null)
+        val dialog = AlertDialog.Builder(requireContext())
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<TextView>(R.id.tvDeleteTitle).text = getString(R.string.delete_chat_title)
+        dialogView.findViewById<TextView>(R.id.tvDeleteMessage).text = getString(R.string.delete_chat_message, seller)
+        dialogView.findViewById<View>(R.id.btnDeleteCancel).setOnClickListener {
+            dialog.dismiss()
+        }
+        dialogView.findViewById<View>(R.id.btnDeleteConfirm).setOnClickListener {
+            Database.deleteConversationForCurrentUser(seller)
+            if (currentSeller == seller && conversationContainer.visibility == View.VISIBLE) {
+                showInbox()
+            }
+            view?.let {
+                bindInboxForCurrentAccount(it)
+                updateInboxPreviews(it)
+            }
+            (activity as? MainActivity)?.refreshChatBadge()
+            Toast.makeText(requireContext(), R.string.chat_deleted, Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
         dialog.show()

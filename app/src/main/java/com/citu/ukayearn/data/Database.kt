@@ -105,6 +105,7 @@ object Database {
     val approvedHaggleVouchers = mutableMapOf<Int, Double>()
     val toReceiveItems = mutableListOf<CartItem>()
     private val receivedPromptsBySeller = mutableMapOf<String, String>()
+    private val deletedConversationsByUser = mutableMapOf<String, MutableSet<String>>()
     val chatMessages = mutableListOf(
         ChatMessage(
             id = 1,
@@ -290,6 +291,7 @@ object Database {
     }
 
     fun markConversationUnreadForUser(username: String, seller: String) {
+        deletedConversationsForUser(username).remove(seller)
         unreadConversationsForUser(username).add(seller)
     }
 
@@ -332,6 +334,17 @@ object Database {
         chatMessages.removeAll { it.id == messageId }
     }
 
+    fun deleteConversationForCurrentUser(seller: String) {
+        chatMessages.removeAll { it.seller == seller }
+        receivedPromptsBySeller.remove(seller)
+        unreadConversationsForCurrentUser().remove(seller)
+        deletedConversationsForCurrentUser().add(seller)
+    }
+
+    fun isConversationDeletedForCurrentUser(seller: String): Boolean {
+        return deletedConversationsForCurrentUser().contains(seller)
+    }
+
     private fun addChatMessage(
         seller: String,
         senderUsername: String,
@@ -339,6 +352,7 @@ object Database {
         imageUri: String?,
         type: ChatMessageType
     ): ChatMessage {
+        deletedConversationsForUser(senderUsername).remove(seller)
         val message = ChatMessage(
             id = (chatMessages.maxOfOrNull { it.id } ?: 0) + 1,
             seller = seller,
@@ -358,6 +372,15 @@ object Database {
 
     private fun unreadConversationsForUser(username: String): MutableSet<String> {
         return unreadConversationsByUser.getOrPut(username) { mutableSetOf() }
+    }
+
+    private fun deletedConversationsForCurrentUser(): MutableSet<String> {
+        val username = currentUsername.ifBlank { "admin" }
+        return deletedConversationsForUser(username)
+    }
+
+    private fun deletedConversationsForUser(username: String): MutableSet<String> {
+        return deletedConversationsByUser.getOrPut(username) { mutableSetOf() }
     }
 
     data class HaggleOffer(

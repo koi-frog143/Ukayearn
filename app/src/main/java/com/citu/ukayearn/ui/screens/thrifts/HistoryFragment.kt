@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -14,14 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.citu.ukayearn.R
 import com.citu.ukayearn.data.Database
+import com.citu.ukayearn.ui.screens.profile.ProfileBottomSheetFragment
 import com.citu.ukayearn.ui.util.AssetImageLoader
 
 class HistoryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Reusing the seller orders XML since the layout is identical (Title + List)
         val view = inflater.inflate(R.layout.fragment_seller_orders, container, false)
-        view.findViewById<TextView>(R.id.tvOrderTitle).text = "My Purchases"
         refreshOrders(view)
         return view
     }
@@ -29,9 +27,24 @@ class HistoryFragment : Fragment() {
     private fun refreshOrders(view: View) {
         val rvOrders = view.findViewById<RecyclerView>(R.id.rvSellerOrders)
         val tvEmpty = view.findViewById<TextView>(R.id.tvNoOrders)
-        tvEmpty.text = "You haven't made any purchases yet!"
+        val statusFilter = orderStatusArgument()
 
-        val myOrders = Database.orders.filter { it.buyerUsername == Database.currentUsername }
+        view.findViewById<TextView>(R.id.tvOrderTitle).text = when (statusFilter) {
+            Database.OrderStatus.PENDING_SHIPMENT -> "To Ship"
+            Database.OrderStatus.SHIPPED -> "To Receive"
+            Database.OrderStatus.COMPLETED -> "Completed"
+            null -> "My Purchases"
+        }
+        tvEmpty.text = when (statusFilter) {
+            Database.OrderStatus.PENDING_SHIPMENT -> "No orders waiting for shipment."
+            Database.OrderStatus.SHIPPED -> "No orders to receive."
+            Database.OrderStatus.COMPLETED -> "No completed orders yet."
+            null -> "You haven't made any purchases yet!"
+        }
+
+        val myOrders = Database.orders
+            .filter { it.buyerUsername == Database.currentUsername }
+            .filter { statusFilter == null || it.status == statusFilter }
 
         if (myOrders.isEmpty()) {
             tvEmpty.visibility = View.VISIBLE
@@ -46,13 +59,22 @@ class HistoryFragment : Fragment() {
                     .setMessage("Confirm you have received ${order.product.name}?")
                     .setPositiveButton("Confirm") { _, _ ->
                         Database.markOrderCompleted(order.id)
-                        Toast.makeText(context, "Order Complete!", Toast.LENGTH_SHORT).show()
+                        Database.sendReceivedPromptToSeller(
+                            order.product.seller,
+                            getString(R.string.item_received_prompt, order.product.name)
+                        )
+                        Toast.makeText(context, "Order complete.", Toast.LENGTH_SHORT).show()
                         refreshOrders(view)
                     }
                     .setNegativeButton("Cancel", null)
                     .show()
             }
         }
+    }
+
+    private fun orderStatusArgument(): Database.OrderStatus? {
+        val statusName = arguments?.getString(ProfileBottomSheetFragment.ORDER_STATUS_ARG) ?: return null
+        return runCatching { Database.OrderStatus.valueOf(statusName) }.getOrNull()
     }
 
     inner class BuyerOrderAdapter(
@@ -64,6 +86,7 @@ class HistoryFragment : Fragment() {
             val ivImage: ImageView = view.findViewById(R.id.ivCheckoutProductImage)
             val tvName: TextView = view.findViewById(R.id.tvCheckoutProductName)
             val tvStatus: TextView = view.findViewById(R.id.tvCheckoutSeller)
+            val tvQuantity: TextView = view.findViewById(R.id.tvCheckoutQuantity)
             val tvPrice: TextView = view.findViewById(R.id.tvCheckoutPrice)
             val btnReceive: TextView = view.findViewById(R.id.btnReceived)
         }
@@ -75,30 +98,34 @@ class HistoryFragment : Fragment() {
 
         override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
             val order = orders[position]
-            holder.tvName.text = order.product.name
-
+            val context = holder.itemView.context
             val totalSpent = order.product.price * order.quantity
-            holder.tvPrice.text = "Total Paid: ₱${"%.2f".format(totalSpent)}"
 
+            holder.tvName.text = order.product.name
+            holder.tvQuantity.text = context.getString(R.string.checkout_quantity_format, order.quantity)
+            holder.tvPrice.text = context.getString(R.string.price_format, totalSpent)
             AssetImageLoader.load(holder.ivImage, order.product.imageUrl)
 
             when (order.status) {
                 Database.OrderStatus.PENDING_SHIPMENT -> {
-                    holder.tvStatus.text = "Status: Pending Shipment"
+                    holder.tvStatus.text = "Status: Pending shipment"
                     holder.btnReceive.visibility = View.GONE
+                    holder.btnReceive.setOnClickListener(null)
                 }
                 Database.OrderStatus.SHIPPED -> {
-                    holder.tvStatus.text = "Status: Shipped (To Receive)"
+                    holder.tvStatus.text = "Status: Shipped"
                     holder.btnReceive.visibility = View.VISIBLE
-                    holder.btnReceive.text = "Order Received"
+                    holder.btnReceive.text = getString(R.string.received)
                     holder.btnReceive.setOnClickListener { onReceiveClicked(order) }
                 }
                 Database.OrderStatus.COMPLETED -> {
                     holder.tvStatus.text = "Status: Completed"
                     holder.btnReceive.visibility = View.GONE
+                    holder.btnReceive.setOnClickListener(null)
                 }
             }
         }
+
         override fun getItemCount() = orders.size
     }
 }

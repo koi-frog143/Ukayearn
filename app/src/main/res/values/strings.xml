@@ -88,6 +88,7 @@
     <string name="premium_member">Gold member</string>
     <string name="to_ship">To Ship</string>
     <string name="to_receive_section">To Receive</string>
+    <string name="shipped_orders">Shipped</string>
     <string name="completed_orders">Completed</string>
     <string name="profile_orders_hint">Order status</string>
     <string name="profile_listings">Listings</string>
@@ -275,4 +276,7 @@
     <string name="delete_message_title">Delete message?</string>
     <string name="delete_message_message">This message will be removed from the conversation.</string>
     <string name="message_deleted">Message deleted.</string>
+    <string name="delete_chat_title">Delete chat?</string>
+    <string name="delete_chat_message">This chat with %1$s will be removed.</string>
+    <string name="chat_deleted">Chat deleted.</string>
 </resources>

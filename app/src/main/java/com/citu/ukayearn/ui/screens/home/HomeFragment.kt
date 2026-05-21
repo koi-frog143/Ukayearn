@@ -1,5 +1,6 @@
 package com.citu.ukayearn.ui.screens.home
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -166,6 +167,12 @@ class HomeFragment : Fragment() {
         btnProfile?.setOnClickListener {
             ProfileBottomSheetFragment().show(parentFragmentManager, ProfileBottomSheetFragment.TAG)
         }
+        parentFragmentManager.setFragmentResultListener(
+            ProfileBottomSheetFragment.PROFILE_UPDATED_RESULT,
+            viewLifecycleOwner
+        ) { _, _ ->
+            updateProfileAvatar(view)
+        }
 
         return view
     }
@@ -179,21 +186,28 @@ class HomeFragment : Fragment() {
         val btnProfile = view.findViewById<View>(R.id.btnProfile)
         if (btnProfile is ImageView) {
             val profileUri = Database.currentProfileImageUri()
-            if (!profileUri.isNullOrBlank()) {
-                try {
-                    btnProfile.setImageURI(android.net.Uri.parse(profileUri))
-                    btnProfile.imageTintList = null
-                    btnProfile.post {
-                        btnProfile.outlineProvider = object : ViewOutlineProvider() {
-                            override fun getOutline(view: View, outline: android.graphics.Outline) {
-                                outline.setOval(0, 0, view.width, view.height)
-                            }
+            if (profileUri.isNullOrBlank()) {
+                btnProfile.setImageResource(R.drawable.ic_profile_24)
+                btnProfile.imageTintList = ColorStateList.valueOf(requireContext().getColor(R.color.secondary_blue))
+                btnProfile.clipToOutline = false
+                return
+            }
+
+            try {
+                btnProfile.setImageURI(android.net.Uri.parse(profileUri))
+                btnProfile.imageTintList = null
+                btnProfile.post {
+                    btnProfile.outlineProvider = object : ViewOutlineProvider() {
+                        override fun getOutline(view: View, outline: android.graphics.Outline) {
+                            outline.setOval(0, 0, view.width, view.height)
                         }
-                        btnProfile.clipToOutline = true
                     }
-                } catch (e: Exception) {
-                    // ignore invalid profile URI
+                    btnProfile.clipToOutline = true
                 }
+            } catch (e: Exception) {
+                btnProfile.setImageResource(R.drawable.ic_profile_24)
+                btnProfile.imageTintList = ColorStateList.valueOf(requireContext().getColor(R.color.secondary_blue))
+                btnProfile.clipToOutline = false
             }
         }
     }
