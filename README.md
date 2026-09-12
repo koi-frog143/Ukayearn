@@ -59,9 +59,9 @@ The prototype ships with the following in-memory accounts:
 | --- | --- | --- |
 | Buyer/Admin | `admin` | `admin123` |
 | Buyer | `buyer` | `password` |
-| Seller â€” ThriftKada | `thriftkada` | `seller123` |
-| Seller â€” CebuFinds | `cebufinds` | `seller123` |
-| Seller â€” UkayBoss | `ukayboss` | `seller123` |
+| Seller — ThriftKada | `thriftkada` | `seller123` |
+| Seller — CebuFinds | `cebufinds` | `seller123` |
+| Seller — UkayBoss | `ukayboss` | `seller123` |
 
 These credentials are for local demonstration only and must not be used in a production application.
 
@@ -155,23 +155,23 @@ bash ./gradlew testDebugUnitTest
 
 ```text
 Ukayearn/
-â”œâ”€â”€ app/
-â”‚   â”œâ”€â”€ src/main/assets/images/     # Local product, store, and brand images
-â”‚   â”œâ”€â”€ src/main/java/com/citu/ukayearn/
-â”‚   â”‚   â”œâ”€â”€ data/                   # In-memory data source and models
-â”‚   â”‚   â”œâ”€â”€ navigation/             # Navigation-related classes
-â”‚   â”‚   â”œâ”€â”€ ui/components/          # Shared UI components
-â”‚   â”‚   â”œâ”€â”€ ui/screens/             # Auth, buyer, seller, chat, and order screens
-â”‚   â”‚   â”œâ”€â”€ ui/theme/               # Compose theme scaffolding
-â”‚   â”‚   â””â”€â”€ ui/util/                # Image-loading utility
-â”‚   â””â”€â”€ src/main/res/
-â”‚       â”œâ”€â”€ drawable/               # Icons and custom backgrounds
-â”‚       â”œâ”€â”€ layout/                 # XML screen and item layouts
-â”‚       â”œâ”€â”€ navigation/             # Fragment navigation graph
-â”‚       â””â”€â”€ values/                 # Colors, strings, and themes
-â”œâ”€â”€ gradle/                         # Version catalog and Gradle wrapper files
-â”œâ”€â”€ build.gradle.kts                # Root build configuration
-â””â”€â”€ settings.gradle.kts             # Project and repository configuration
+├── app/
+│   ├── src/main/assets/images/     # Local product, store, and brand images
+│   ├── src/main/java/com/citu/ukayearn/
+│   │   ├── data/                   # In-memory data source and models
+│   │   ├── navigation/             # Navigation-related classes
+│   │   ├── ui/components/          # Shared UI components
+│   │   ├── ui/screens/             # Auth, buyer, seller, chat, and order screens
+│   │   ├── ui/theme/               # Compose theme scaffolding
+│   │   └── ui/util/                # Image-loading utility
+│   └── src/main/res/
+│       ├── drawable/               # Icons and custom backgrounds
+│       ├── layout/                 # XML screen and item layouts
+│       ├── navigation/             # Fragment navigation graph
+│       └── values/                 # Colors, strings, and themes
+├── gradle/                         # Version catalog and Gradle wrapper files
+├── build.gradle.kts                # Root build configuration
+└── settings.gradle.kts             # Project and repository configuration
 ```
 
 ## Current limitations
